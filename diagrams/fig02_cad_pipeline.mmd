@@ -1,0 +1,54 @@
+%% Figure 2 - CAD analysis pipeline
+%% Exact data-flow links reconstructed from the reference image
+
+%%{init: {
+  "theme": "base",
+  "flowchart": {
+    "curve": "basis",
+    "nodeSpacing": 42,
+    "rankSpacing": 66,
+    "htmlLabels": true
+  },
+  "themeVariables": {
+    "fontFamily": "Arial, Helvetica, sans-serif",
+    "fontSize": "16px",
+    "lineColor": "#111111",
+    "edgeLabelBackground": "#ffffff"
+  }
+}}%%
+
+flowchart LR
+
+    %% Architecture branch
+    AG["Architecture graph"] --> CF["Component fragility<br/>score"]
+
+    %% Event-log branch
+    EL["EHR event logs"] --> PM["Process mining:<br/>variants and frequencies"]
+    PM --> PC["Pathway frequency<br/>and criticality"]
+
+    %% Trace branch
+    DT["Distributed traces"] --> TM["Trace-to-service<br/>mapping"]
+    TM --> SE["Service exposure<br/>by pathway"]
+
+    %% CAD aggregation
+    CF --> CAD["CAD scoring"]
+    PC --> CAD
+    SE --> CAD
+
+    %% Ranking and outputs
+    CAD --> RANK["Component ranking"]
+    RANK --> MAINT["Maintenance prioritization"]
+    RANK --> METRICS["Ranking metrics:<br/>P@10 / R@10 / MAP / CI"]
+
+    %% Styles
+    classDef input fill:#eaf4ff,stroke:#2196e3,stroke-width:2px,color:#0d47a1;
+    classDef process fill:#eef8eb,stroke:#48aa4f,stroke-width:2px,color:#185b25;
+    classDef rank fill:#fff7ed,stroke:#ff9800,stroke-width:2px,color:#f45100;
+    classDef metric fill:#fff0f2,stroke:#ef3b35,stroke-width:2px,color:#c7191f;
+
+    class AG,EL,DT input;
+    class CF,PM,PC,TM,SE,CAD process;
+    class RANK,MAINT rank;
+    class METRICS metric;
+
+    linkStyle default stroke:#111111,stroke-width:2px;

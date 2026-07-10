@@ -1,0 +1,86 @@
+%%{init: {"theme":"base","flowchart":{"curve":"basis","nodeSpacing":38,"rankSpacing":62,"htmlLabels":true},"themeVariables":{"fontFamily":"Arial","fontSize":"12px","lineColor":"#111111","edgeLabelBackground":"#d8d8d8"}}}%%
+flowchart LR
+
+    CLIENT["Client Applications<br/>Web / Mobile / Admin /<br/>Patient / Physician"]
+    NGINX["Nginx<br/>TLS / Static Assets"]
+    HAP["HAProxy<br/>Load Balancing / Rate<br/>Limiting"]
+    WS["WebSocket Gateway<br/>Real-time Updates"]
+    AUTH["Authentication Layer<br/>JWT + Government /<br/>Insurance / MoH SSO"]
+
+    CORE["BioArc Core Engine<br/>PHP MVC Orchestration"]
+    CLIN["Core Clinical Services<br/>Patient / Encounter /<br/>Orders / Medication / Lab /<br/>Alerts"]
+    GOV["Governance Services<br/>Audit / Access Control /<br/>Consent / Privacy"]
+    REPORT["Reporting Engine<br/>Operational Reports"]
+
+    BACKUP["Backup and Test Support<br/>restic / Production / Test<br/>Environment"]
+    REDIS[("Redis<br/>Session Cache / Queue /<br/>Insurance Tokens")]
+    CRON["Cron and Sync Jobs<br/>Hospital Sync / Tickets /<br/>Coding / Alerts"]
+
+    INT["Internal Integration Layer<br/>FHIR / HL7 v2 / DICOM /<br/>REST / SOAP / JSON"]
+    EXT["External Systems<br/>HIS / PACS / Sabara /<br/>National Registry / SMS /<br/>Meksa"]
+    INS["Insurance Systems<br/>Tamin / Salamat / Armed<br/>Forces"]
+
+    MDB[("MariaDB Cluster<br/>Clinical Data / Users /<br/>Audit / JSON EHRs")]
+    CH[("ClickHouse<br/>Passive Analytics")]
+    OBS["Observability Stack<br/>HAProxy Logs / App Logs /<br/>API Logs / Monitoring /<br/>CAD Evidence"]
+
+    %% Main request and access path
+    CLIENT --> NGINX --> HAP
+    NGINX --> WS
+    HAP --> AUTH
+    AUTH --> CORE
+
+    %% Application services
+    CORE --> CLIN
+    CORE --> GOV
+    CORE --> REPORT
+    WS --> CLIN
+
+    %% Operational storage and queueing
+    CORE --> REDIS
+    CORE --> MDB
+    CLIN --> MDB
+    GOV --> MDB
+    REPORT --> CH
+
+    BACKUP -.->|backup metadata| REDIS
+    BACKUP -.->|backup snapshots| MDB
+    REDIS -.->|queued jobs| CRON
+    CRON --> REDIS
+
+    %% Synchronization and external integrations
+    CRON --> INT
+    CRON --> MDB
+    CRON --> CH
+    CRON -->|healthcare APIs / standards| EXT
+    CRON -->|eligibility / claims / coding| INS
+    EXT --> INT
+    INS --> INT
+
+    MDB -.->|ETL / analytics sync| CH
+
+    %% Observability and CAD evidence
+    HAP -.->|routing and rate-limit logs| OBS
+    CORE -.->|application logs /<br/>correlation IDs| OBS
+    INT -.->|API logs| OBS
+    MDB -.->|event-log extracts| OBS
+    CH -.->|usage summaries| OBS
+
+    %% Styling
+    classDef client fill:#eef6ff,stroke:#4a90e2,stroke-width:1.3px,color:#1359a6;
+    classDef edge fill:#f2edff,stroke:#7a55c7,stroke-width:1.3px,color:#4d2c93;
+    classDef auth fill:#fff8ea,stroke:#f0a33c,stroke-width:1.3px,color:#6e4c00;
+    classDef service fill:#eef9ef,stroke:#58a961,stroke-width:1.3px,color:#2b6a33;
+    classDef data fill:#fff9ef,stroke:#f0a13b,stroke-width:1.4px,color:#e56b25;
+    classDef support fill:#edf3f6,stroke:#78909c,stroke-width:1.3px,color:#37474f;
+    classDef external fill:#fff1f1,stroke:#ff5a5a,stroke-width:1.3px,color:#d72d2d;
+    classDef obs fill:#e9fbff,stroke:#35b8d0,stroke-width:1.3px,color:#15758b;
+
+    class CLIENT client;
+    class NGINX,HAP,WS edge;
+    class AUTH auth;
+    class CORE,CLIN,GOV,REPORT,INT service;
+    class REDIS,MDB,CH data;
+    class BACKUP,CRON support;
+    class EXT,INS external;
+    class OBS obs;

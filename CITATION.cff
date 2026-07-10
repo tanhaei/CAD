@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this synthetic replication package, please cite the associated manuscript and this software release."
+title: "CAD Synthetic Replication Package"
+type: software
+version: 0.1.0
+date-released: 2026-07-10
+repository-code: "https://github.com/tanhaei/CAD"
+authors:
+  - family-names: "Tanhaei"
+    given-names: "Mohammad"
+    orcid: "https://orcid.org/0000-0001-5089-3917"

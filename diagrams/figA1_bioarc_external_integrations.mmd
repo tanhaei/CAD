@@ -1,0 +1,96 @@
+%% Figure A.1 - Detailed BioArc service architecture and external integrations
+flowchart TB
+
+  subgraph CLIENTS[Client channels]
+    direction LR
+    WEB["Web portal\nPatient, physician and nurse"]
+    MOBILE["Mobile app\nPatient and care team"]
+    ADMIN["Admin panel\nOperators"]
+    WORK["Physician and patient workspaces"]
+  end
+
+  subgraph EDGE[Edge and access layer]
+    direction LR
+    NGINX["Nginx\nTLS and static assets"]
+    HAP["HAProxy\nLoad balancing and rate limiting"]
+    WS["WebSocket gateway\nReal-time updates"]
+    AUTH["Authentication layer\nJWT and token exchange"]
+  end
+
+  subgraph SSO[External SSO providers]
+    direction LR
+    GOVSSO["Government SSO"]
+    INSSSO["Insurance SSO"]
+    MOHSSO["Ministry of Health SSO"]
+  end
+
+  subgraph SERVICES[BioArc service layer]
+    direction LR
+    ENGINE["BioArc Core Engine\nPHP MVC orchestration"]
+    CLIN["Core clinical services\nPatient, encounter, orders, medication, lab and alerts"]
+    GOVERN["Governance services\nAudit, access control, consent and privacy"]
+    REPORT["Reporting engine\nOperational reports"]
+    INTEGRATION["Internal integration layer\nFHIR, HL7 v2, DICOM, REST, SOAP and JSON"]
+  end
+
+  subgraph STORES[Operational data stores]
+    direction LR
+    MDB[("MariaDB cluster\nClinical data, JSON EHRs, users and audit")]
+    REDIS[("Redis\nSession cache, queue and insurance tokens")]
+    CLICK[("ClickHouse\nPassive reporting and analytics")]
+  end
+
+  subgraph EXTERNAL[External healthcare and insurance systems]
+    direction LR
+    HIS["HIS Sabara and national exchange"]
+    PACS["PACS and DICOM imaging"]
+    REGISTRY["National health registry"]
+    MSG["SMS gateway and Meksa system"]
+    INSURANCE["Insurance systems\nTamin, Salamat and Armed Forces"]
+  end
+
+  WEB --> NGINX
+  MOBILE --> NGINX
+  ADMIN --> NGINX
+  WORK --> NGINX
+  NGINX --> HAP
+  HAP --> WS
+  HAP --> AUTH
+
+  GOVSSO <-->|"token exchange"| AUTH
+  INSSSO <-->|"token exchange"| AUTH
+  MOHSSO <-->|"token exchange"| AUTH
+
+  AUTH --> ENGINE
+  WS --> ENGINE
+  ENGINE --> CLIN
+  ENGINE --> GOVERN
+  ENGINE --> REPORT
+  ENGINE --> INTEGRATION
+
+  CLIN --> MDB
+  GOVERN --> MDB
+  REPORT --> MDB
+  ENGINE --> REDIS
+  REPORT --> CLICK
+  MDB -->|"ETL"| CLICK
+
+  INTEGRATION <-->|"FHIR, HL7, REST, SOAP and JSON"| HIS
+  INTEGRATION <-->|"DICOM"| PACS
+  INTEGRATION <-->|"registry API"| REGISTRY
+  INTEGRATION <-->|"SMS API"| MSG
+  INTEGRATION <-->|"eligibility, claims and coding"| INSURANCE
+
+  classDef client fill:#f5f7ff,stroke:#6674a3,stroke-width:1px,color:#1d2540;
+  classDef edge fill:#eef7ff,stroke:#3d78a8,stroke-width:1px,color:#16334a;
+  classDef sso fill:#f7f1ff,stroke:#7656a8,stroke-width:1px,color:#2f1c4a;
+  classDef service fill:#eefaf4,stroke:#3b8161,stroke-width:1px,color:#173d2c;
+  classDef data fill:#fff7e8,stroke:#a87324,stroke-width:1px,color:#4d3510;
+  classDef external fill:#fff1f2,stroke:#a45159,stroke-width:1px,color:#4c1e22;
+
+  class WEB,MOBILE,ADMIN,WORK client;
+  class NGINX,HAP,WS,AUTH edge;
+  class GOVSSO,INSSSO,MOHSSO sso;
+  class ENGINE,CLIN,GOVERN,REPORT,INTEGRATION service;
+  class MDB,REDIS,CLICK data;
+  class HIS,PACS,REGISTRY,MSG,INSURANCE external;

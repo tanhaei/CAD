@@ -1,0 +1,6 @@
+perturbation,top10_overlap,spearman_rho,kendall_tau
+Uniform fragility weights,9.9,0.9980671208330631,0.9797417749310336
+Alternative criticality mapping,8.8,0.9739330883746627,0.8822447506170981
+Frequency threshold 1.0%,9.9,0.9994476077699076,0.9932318434579587
+Trace completeness reduced by 20%,7.7,0.8684531294150923,0.7642094632428181
+Trace completeness increased by 20%,9.9,0.9881342412365856,0.9782776100852266
