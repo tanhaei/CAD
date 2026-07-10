@@ -173,25 +173,6 @@ The experiment writes:
 - `results/metadata.json`: seeds, platform, parameters, and reproducibility metadata;
 - `figures/*.pdf` and `figures/*.png`: regenerated publication-oriented figures.
 
-## Manuscript workflow
-
-`manuscript/V1_source_with_author_inputs.tex` preserves the uploaded manuscript state. The reproducible simulation-only manuscript is generated with:
-
-```bash
-python scripts/update_manuscript.py \
-  --source manuscript/V1_source_with_author_inputs.tex \
-  --results-dir results \
-  --output manuscript/V1_simulated.tex
-```
-
-`V1_simulated.tex` contains no live `\AuthorInput` fields and uses the committed synthetic outputs. It must be replaced with verified empirical results before journal submission.
-
-The Mermaid sources for the architecture figures are in `diagrams/`. To render them with Mermaid CLI:
-
-```bash
-bash scripts/render_mermaid.sh
-```
-
 ## Repository layout
 
 ```text
