@@ -197,9 +197,6 @@ bash scripts/render_mermaid.sh
 ```text
 CAD/
 ├── config/                 # Full synthetic experiment configuration
-├── diagrams/               # Mermaid source files
-├── figures/                # Generated PDF/PNG charts
-├── manuscript/             # Source and simulation-only LaTeX versions
 ├── results/                # Committed experiment outputs
 ├── scripts/                # Experiment, manuscript, and diagram commands
 ├── src/cad_sim/            # Installable Python package
