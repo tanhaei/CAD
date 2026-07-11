@@ -1,10 +1,11 @@
 {
   "simulation_only": true,
   "repository": "https://github.com/tanhaei/CAD",
-  "python": "3.13.5",
-  "platform": "Linux-4.4.0-x86_64-with-glibc2.41",
-  "logical_cpu_count": 56,
-  "peak_process_memory_mb": 519.2421875,
+  "python": "3.12.13",
+  "platform": "Linux-6.12.47-x86_64-with-glibc2.39",
+  "logical_cpu_count": 9,
+  "peak_process_memory_mb": 133.5390625,
+  "analysis_wall_clock_seconds": 2.046027010999751,
   "normalization": "5th--95th percentile winsorized min--max scaling to [0,1]",
   "bootstrap": {
     "unit": "evaluation run",
@@ -12,9 +13,21 @@
     "resamples": 10000,
     "confidence_level": 0.95
   },
-  "run_randomization": "stratified pathway-count resampling and stochastic resampling of complete, partial, and unmapped trace-link states; relevance labels remain fixed",
-  "runtime_includes": "pathway-frequency resampling, trace-state resampling, exposure aggregation, CAD scoring, and ranking",
-  "runtime_excludes": "database extraction, log export/transfer, one-time environment initialization, manuscript compilation, and figure generation",
+  "synthetic_scope": {
+    "active_pathways_generated_directly": true,
+    "process_discovery_executed": false,
+    "case_level_trace_completeness_simulated": false,
+    "configured_process_algorithm": "Inductive Miner",
+    "configured_process_noise_threshold": 0.8,
+    "reported_complete_case_probability": 0.641
+  },
+  "run_randomization": "multinomial pathway-count resampling and stochastic resampling of complete, partial, and unmapped trace-link states; relevance labels remain fixed",
+  "runtime_includes": "fragility normalization, pathway-frequency resampling, trace-state resampling, exposure aggregation, method-specific scoring, and ranking",
+  "runtime_excludes": "database extraction, log export/transfer, one-time environment initialization, and result serialization",
+  "runtime_benchmark": {
+    "repeats": 20,
+    "evaluation_runs_per_repeat": 30
+  },
   "config": {
     "n_components": 45,
     "n_pathways": 14,
@@ -23,6 +36,20 @@
     "first_seed": 42,
     "n_relevant_components": 12,
     "n_injected_defects": 120,
+    "relevant_component_ids": [
+      3,
+      6,
+      10,
+      14,
+      20,
+      29,
+      30,
+      31,
+      32,
+      33,
+      35,
+      43
+    ],
     "criticality_mapping": [
       0.25,
       0.5,
@@ -53,7 +80,6 @@
     "complete_trace_probability": 0.785,
     "partial_trace_probability": 0.152,
     "unmapped_trace_probability": 0.063,
-    "partial_trace_weight": 0.5,
     "complete_case_probability": 0.641,
     "process_algorithm": "Inductive Miner",
     "process_noise_threshold": 0.8,
@@ -61,25 +87,7 @@
     "sensitivity_variant_threshold": 0.01,
     "bootstrap_resamples": 10000,
     "bootstrap_confidence_level": 0.95,
-    "system_seed": 1584,
-    "score_noise": {
-      "Static fragility": 0.12,
-      "Frequency only": 0.18,
-      "Unweighted process-aware": 0.16,
-      "Full CAD": 0.03
-    },
-    "top_decoy_probability": {
-      "Static fragility": 0.36,
-      "Frequency only": 0.92,
-      "Unweighted process-aware": 0.72,
-      "Full CAD": 0.2
-    },
-    "tail_degradation_probability": {
-      "Static fragility": 0.14,
-      "Frequency only": 0.68,
-      "Unweighted process-aware": 0.14,
-      "Full CAD": 0.14
-    }
+    "system_seed": 1584
   },
   "relevant_component_ids": [
     3,
@@ -96,14 +104,10 @@
     43
   ],
   "defect_count_total": 120,
-  "reference_full_run": {
-    "command": "make experiment",
-    "wall_clock_seconds": 6.13,
-    "peak_rss_kb": 596492,
-    "peak_rss_mb": 582.51,
-    "pytest_command": "python -m pytest -q",
-    "pytest_result": "10 passed",
-    "pytest_seconds": 4.43,
-    "tested_on": "2026-07-10"
-  }
+  "realized_trace_coverage_mean": {
+    "complete": 0.7875000000000001,
+    "partial": 0.14935897435897433,
+    "unmapped": 0.06314102564102565
+  },
+  "end_to_end_wall_clock_seconds": 2.08102431000043
 }

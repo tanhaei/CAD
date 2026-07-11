@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this synthetic replication package, please cite the associated manuscript and this software release."
-title: "CAD Synthetic Replication Package"
+title: "CAD Synthetic Evaluation Package"
 type: software
-version: 0.1.0
+version: 0.2.0
 date-released: 2026-07-10
 repository-code: "https://github.com/tanhaei/CAD"
 authors:

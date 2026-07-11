@@ -7,7 +7,6 @@ import pandas as pd
 
 from cad_sim.config import ExperimentConfig
 from cad_sim.experiment import run_experiment, write_results
-from cad_sim.reporting import generate_all_figures
 
 
 def test_quick_experiment_smoke(tmp_path: Path) -> None:
@@ -28,9 +27,7 @@ def test_quick_experiment_smoke(tmp_path: Path) -> None:
     assert results.method_summary["map"].between(0, 1).all()
 
     result_dir = tmp_path / "results"
-    figure_dir = tmp_path / "figures"
     write_results(results, result_dir)
-    generate_all_figures(results, figure_dir)
 
     expected_results = {
         "method_summary.csv",
@@ -40,12 +37,20 @@ def test_quick_experiment_smoke(tmp_path: Path) -> None:
         "runtime_summary.csv",
         "metadata.json",
         "component_ground_truth.csv",
+        "defect_ground_truth.csv",
         "pathway_summary.csv",
+        "run_pathway_summary.csv",
+        "run_trace_coverage.csv",
     }
     assert expected_results.issubset({path.name for path in result_dir.iterdir()})
-    assert (figure_dir / "ranking_effectiveness.pdf").exists()
-    assert (figure_dir / "ablation_analysis.pdf").exists()
-    assert (figure_dir / "sensitivity_analysis.pdf").exists()
+
+    defects = pd.read_csv(result_dir / "defect_ground_truth.csv")
+    assert len(defects) == config.n_injected_defects
+    assert set(defects["component_id"]) == set(config.relevant_component_ids)
+
+    pathways = pd.read_csv(result_dir / "run_pathway_summary.csv")
+    counts_by_seed = pathways.groupby("seed")["activity_count"].sum()
+    assert (counts_by_seed == config.n_activity_records).all()
 
 
 def test_full_reproducibility_for_core_metrics() -> None:

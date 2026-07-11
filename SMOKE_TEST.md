@@ -1,4 +1,4 @@
-# Smoke-test report
+# Validation report
 
 Date: 2026-07-10
 
@@ -10,17 +10,12 @@ Command:
 make experiment
 ```
 
-Result: **passed**
+Result: **passed**. The command completed 30 runs (seeds 42-71), used 500,000 activity-record-equivalent observations per run, computed BCa intervals with 10,000 resamples, and regenerated every CSV/JSON file under `results/`.
 
-Reference environment reported by the generated metadata:
+Reference in-process measurements recorded in `results/metadata.json`:
 
-- Python 3.13.5
-- Linux x86_64
-- 56 logical CPUs visible to the container
-- wall-clock time: 6.13 seconds
-- maximum resident set size: 596,492 KiB (582.51 MiB)
-
-The command regenerated all CSV/JSON results, four pairs of PDF/PNG charts, and `manuscript/V1_simulated.tex`.
+- end-to-end time through result serialization: **2.08 s**;
+- peak process memory: **133.54 MB**.
 
 ## Automated tests
 
@@ -30,34 +25,18 @@ Command:
 python -m pytest -q
 ```
 
-Result:
+The suite checks article configuration, CAD equation arithmetic, binary trace membership, fixed and score-independent ground truth, ranking metrics, ablation/sensitivity shapes, committed-result integrity, deterministic reproduction, and output serialization.
 
-```text
-..........                                                               [100%]
-10 passed in 4.43s
-```
-
-The tests cover metric definitions, normalization bounds, ground-truth counts, deterministic reproducibility, output-file generation, manuscript placeholder removal, and asset availability.
+Result: **19 passed**.
 
 ## Quick experiment
 
 Command:
 
 ```bash
-python scripts/run_experiment.py --quick \
-  --output-dir results/quick \
-  --figures-dir figures/quick
+python scripts/run_experiment.py --quick --output-dir results/quick
 ```
 
-Result: **passed**. The quick profile completed three runs with 20,000 activity-record-equivalent observations and generated all expected outputs.
+The quick profile uses three runs, 20,000 observations per run, and 1,000 bootstrap resamples. It must generate the same output schema as the full experiment.
 
-## LaTeX syntax smoke test
-
-Command:
-
-```bash
-cd manuscript
-pdflatex -interaction=nonstopmode -halt-on-error V1_simulated.tex
-```
-
-Result: **passed** for a one-pass syntax and asset check. Full bibliography resolution requires a normal BibTeX-enabled LaTeX environment.
+Result: **passed**.

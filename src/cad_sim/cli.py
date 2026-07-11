@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
+import time
 
 from .config import ExperimentConfig
 from .experiment import run_experiment, write_results
-from .reporting import generate_all_figures, write_manuscript_values
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -24,11 +25,6 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path("results"),
     )
     parser.add_argument(
-        "--figures-dir",
-        type=Path,
-        default=Path("figures"),
-    )
-    parser.add_argument(
         "--quick",
         action="store_true",
         help="Use 3 runs, 20,000 activity records, and 1,000 bootstrap resamples.",
@@ -37,6 +33,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    command_started_at = time.perf_counter()
     args = build_parser().parse_args(argv)
     config = ExperimentConfig.from_json(args.config) if args.config else ExperimentConfig()
     if args.quick:
@@ -54,14 +51,20 @@ def main(argv: list[str] | None = None) -> int:
             "alternative_criticality_mapping",
             "criticality_band_counts",
             "fragility_weights",
+            "relevant_component_ids",
         ):
             payload[key] = tuple(payload[key])
         config = ExperimentConfig(**payload)
 
     results = run_experiment(config)
     write_results(results, args.output_dir)
-    generate_all_figures(results, args.figures_dir)
-    write_manuscript_values(results, args.output_dir / "manuscript_values.json")
+    results.metadata["end_to_end_wall_clock_seconds"] = (
+        time.perf_counter() - command_started_at
+    )
+    (args.output_dir / "metadata.json").write_text(
+        json.dumps(results.metadata, indent=2),
+        encoding="utf-8",
+    )
     print(results.method_summary.to_string(index=False))
     print("\nAblation")
     print(results.ablation_summary.to_string(index=False))

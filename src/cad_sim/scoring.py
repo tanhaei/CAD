@@ -32,6 +32,29 @@ def score_methods(
     }
 
 
+def score_method(
+    method: str,
+    system: SyntheticSystem,
+    sampled_frequency: np.ndarray,
+    observed_incidence: np.ndarray,
+) -> np.ndarray:
+    """Compute one method without evaluating the other baselines."""
+    if method == "Static fragility":
+        return system.fragility.copy()
+    frequency_exposure = (sampled_frequency[:, None] * observed_incidence).sum(axis=0)
+    if method == "Frequency only":
+        return frequency_exposure
+    if method == "Unweighted process-aware":
+        return system.fragility * frequency_exposure
+    if method == "Full CAD":
+        critical_exposure = (
+            (sampled_frequency * system.pathway_criticality)[:, None]
+            * observed_incidence
+        ).sum(axis=0)
+        return system.fragility * critical_exposure
+    raise ValueError(f"unknown ranking method: {method}")
+
+
 def score_ablations(
     system: SyntheticSystem,
     sampled_frequency: np.ndarray,
@@ -125,44 +148,14 @@ def score_sensitivity_variants(
     }
 
 
-def normalize_score(score: np.ndarray) -> np.ndarray:
-    score = np.asarray(score, dtype=float)
-    return (score - score.min()) / (score.max() - score.min() + 1e-12)
+def rank_scores(score: np.ndarray) -> np.ndarray:
+    """Return a descending, deterministic component order.
 
-
-def calibrated_order(
-    score: np.ndarray,
-    relevant: np.ndarray,
-    config: ExperimentConfig,
-    method: str,
-    seed: int,
-    offset: int,
-) -> np.ndarray:
-    """Create a deterministic run-specific order for the synthetic calibration.
-
-    The controlled perturbations emulate measurement noise and ranking ties while
-    keeping the component relevance labels fixed. They are part of the synthetic
-    model and are not claimed to reproduce the original private experiment.
+    Component IDs break exact score ties. Ground-truth relevance is deliberately
+    absent from this function so evaluation labels cannot influence ranking.
     """
-    normalized = normalize_score(score)
-    local_rng = np.random.default_rng(seed * 100 + offset)
-    noise = config.score_noise.get(method, 0.08)
-    noisy = normalized + local_rng.normal(0.0, noise, len(score))
-    order = np.argsort(noisy)[::-1]
-
-    adjustment_rng = np.random.default_rng(seed * 1000 + offset)
-    top_probability = config.top_decoy_probability.get(method, 0.0)
-    if adjustment_rng.random() < top_probability:
-        top = order[:10]
-        non_relevant = top[~relevant[top]]
-        if len(non_relevant):
-            decoy = int(non_relevant[0])
-            position = int(np.where(order == decoy)[0][0])
-            order = np.concatenate(([decoy], np.delete(order, position)))
-
-    tail_probability = config.tail_degradation_probability.get(method, 0.0)
-    if adjustment_rng.random() < tail_probability:
-        head = order[:10]
-        tail = order[10:]
-        order = np.concatenate((head, tail[~relevant[tail]], tail[relevant[tail]]))
-    return order
+    score = np.asarray(score, dtype=float)
+    if score.ndim != 1 or not np.isfinite(score).all():
+        raise ValueError("score must be a finite one-dimensional array")
+    component_ids = np.arange(len(score))
+    return np.lexsort((component_ids, -score))

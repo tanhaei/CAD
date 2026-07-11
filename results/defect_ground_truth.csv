@@ -1,0 +1,121 @@
+defect_id,component_id,category,affected_pathway_id,criticality_band,criticality_score,related_test_id
+D-001,3,missing fallback,2,Low,0.25,T-C03-001
+D-002,3,test-gap exposure,6,Low,0.25,T-C03-002
+D-003,3,observability gap,9,Moderate,0.5,T-C03-003
+D-004,3,dependency misuse,2,Low,0.25,T-C03-004
+D-005,3,unstable service interaction,6,Low,0.25,T-C03-005
+D-006,3,schema/contract inconsistency,9,Moderate,0.5,T-C03-006
+D-007,3,missing fallback,2,Low,0.25,T-C03-007
+D-008,3,test-gap exposure,6,Low,0.25,T-C03-008
+D-009,3,observability gap,9,Moderate,0.5,T-C03-009
+D-010,3,dependency misuse,2,Low,0.25,T-C03-010
+D-011,3,unstable service interaction,6,Low,0.25,T-C03-011
+D-012,3,schema/contract inconsistency,9,Moderate,0.5,T-C03-012
+D-013,3,missing fallback,2,Low,0.25,T-C03-013
+D-014,3,test-gap exposure,6,Low,0.25,T-C03-014
+D-015,3,observability gap,9,Moderate,0.5,T-C03-015
+D-016,3,dependency misuse,2,Low,0.25,T-C03-016
+D-017,3,unstable service interaction,6,Low,0.25,T-C03-017
+D-018,3,schema/contract inconsistency,9,Moderate,0.5,T-C03-018
+D-019,3,missing fallback,2,Low,0.25,T-C03-019
+D-020,3,test-gap exposure,6,Low,0.25,T-C03-020
+D-021,3,observability gap,9,Moderate,0.5,T-C03-021
+D-022,3,dependency misuse,2,Low,0.25,T-C03-022
+D-023,3,unstable service interaction,6,Low,0.25,T-C03-023
+D-024,3,schema/contract inconsistency,9,Moderate,0.5,T-C03-024
+D-025,3,missing fallback,2,Low,0.25,T-C03-025
+D-026,6,dependency misuse,4,Moderate,0.5,T-C06-001
+D-027,6,unstable service interaction,6,Low,0.25,T-C06-002
+D-028,6,schema/contract inconsistency,8,High,0.75,T-C06-003
+D-029,10,test-gap exposure,0,Moderate,0.5,T-C10-001
+D-030,10,observability gap,4,Moderate,0.5,T-C10-002
+D-031,10,dependency misuse,5,Critical,1.0,T-C10-003
+D-032,10,unstable service interaction,7,High,0.75,T-C10-004
+D-033,10,schema/contract inconsistency,0,Moderate,0.5,T-C10-005
+D-034,10,missing fallback,4,Moderate,0.5,T-C10-006
+D-035,10,test-gap exposure,5,Critical,1.0,T-C10-007
+D-036,10,observability gap,7,High,0.75,T-C10-008
+D-037,10,dependency misuse,0,Moderate,0.5,T-C10-009
+D-038,10,unstable service interaction,4,Moderate,0.5,T-C10-010
+D-039,10,schema/contract inconsistency,5,Critical,1.0,T-C10-011
+D-040,10,missing fallback,7,High,0.75,T-C10-012
+D-041,14,schema/contract inconsistency,7,High,0.75,T-C14-001
+D-042,14,missing fallback,13,High,0.75,T-C14-002
+D-043,14,test-gap exposure,7,High,0.75,T-C14-003
+D-044,14,observability gap,13,High,0.75,T-C14-004
+D-045,14,dependency misuse,7,High,0.75,T-C14-005
+D-046,14,unstable service interaction,13,High,0.75,T-C14-006
+D-047,14,schema/contract inconsistency,7,High,0.75,T-C14-007
+D-048,14,missing fallback,13,High,0.75,T-C14-008
+D-049,14,test-gap exposure,7,High,0.75,T-C14-009
+D-050,14,observability gap,13,High,0.75,T-C14-010
+D-051,14,dependency misuse,7,High,0.75,T-C14-011
+D-052,20,schema/contract inconsistency,3,Low,0.25,T-C20-001
+D-053,20,missing fallback,4,Moderate,0.5,T-C20-002
+D-054,20,test-gap exposure,5,Critical,1.0,T-C20-003
+D-055,20,observability gap,3,Low,0.25,T-C20-004
+D-056,20,dependency misuse,4,Moderate,0.5,T-C20-005
+D-057,20,unstable service interaction,5,Critical,1.0,T-C20-006
+D-058,20,schema/contract inconsistency,3,Low,0.25,T-C20-007
+D-059,20,missing fallback,4,Moderate,0.5,T-C20-008
+D-060,20,test-gap exposure,5,Critical,1.0,T-C20-009
+D-061,20,observability gap,3,Low,0.25,T-C20-010
+D-062,20,dependency misuse,4,Moderate,0.5,T-C20-011
+D-063,20,unstable service interaction,5,Critical,1.0,T-C20-012
+D-064,20,schema/contract inconsistency,3,Low,0.25,T-C20-013
+D-065,20,missing fallback,4,Moderate,0.5,T-C20-014
+D-066,20,test-gap exposure,5,Critical,1.0,T-C20-015
+D-067,29,observability gap,4,Moderate,0.5,T-C29-001
+D-068,29,dependency misuse,8,High,0.75,T-C29-002
+D-069,29,unstable service interaction,10,Moderate,0.5,T-C29-003
+D-070,29,schema/contract inconsistency,4,Moderate,0.5,T-C29-004
+D-071,29,missing fallback,8,High,0.75,T-C29-005
+D-072,29,test-gap exposure,10,Moderate,0.5,T-C29-006
+D-073,29,observability gap,4,Moderate,0.5,T-C29-007
+D-074,29,dependency misuse,8,High,0.75,T-C29-008
+D-075,29,unstable service interaction,10,Moderate,0.5,T-C29-009
+D-076,29,schema/contract inconsistency,4,Moderate,0.5,T-C29-010
+D-077,29,missing fallback,8,High,0.75,T-C29-011
+D-078,29,test-gap exposure,10,Moderate,0.5,T-C29-012
+D-079,29,observability gap,4,Moderate,0.5,T-C29-013
+D-080,29,dependency misuse,8,High,0.75,T-C29-014
+D-081,29,unstable service interaction,10,Moderate,0.5,T-C29-015
+D-082,29,schema/contract inconsistency,4,Moderate,0.5,T-C29-016
+D-083,30,dependency misuse,6,Low,0.25,T-C30-001
+D-084,30,unstable service interaction,9,Moderate,0.5,T-C30-002
+D-085,30,schema/contract inconsistency,11,Critical,1.0,T-C30-003
+D-086,31,unstable service interaction,2,Low,0.25,T-C31-001
+D-087,31,schema/contract inconsistency,9,Moderate,0.5,T-C31-002
+D-088,32,schema/contract inconsistency,8,High,0.75,T-C32-001
+D-089,32,missing fallback,9,Moderate,0.5,T-C32-002
+D-090,32,test-gap exposure,10,Moderate,0.5,T-C32-003
+D-091,32,observability gap,8,High,0.75,T-C32-004
+D-092,32,dependency misuse,9,Moderate,0.5,T-C32-005
+D-093,32,unstable service interaction,10,Moderate,0.5,T-C32-006
+D-094,32,schema/contract inconsistency,8,High,0.75,T-C32-007
+D-095,32,missing fallback,9,Moderate,0.5,T-C32-008
+D-096,32,test-gap exposure,10,Moderate,0.5,T-C32-009
+D-097,32,observability gap,8,High,0.75,T-C32-010
+D-098,32,dependency misuse,9,Moderate,0.5,T-C32-011
+D-099,32,unstable service interaction,10,Moderate,0.5,T-C32-012
+D-100,33,missing fallback,1,Low,0.25,T-C33-001
+D-101,33,test-gap exposure,2,Low,0.25,T-C33-002
+D-102,33,observability gap,6,Low,0.25,T-C33-003
+D-103,33,dependency misuse,8,High,0.75,T-C33-004
+D-104,33,unstable service interaction,13,High,0.75,T-C33-005
+D-105,33,schema/contract inconsistency,1,Low,0.25,T-C33-006
+D-106,33,missing fallback,2,Low,0.25,T-C33-007
+D-107,33,test-gap exposure,6,Low,0.25,T-C33-008
+D-108,33,observability gap,8,High,0.75,T-C33-009
+D-109,33,dependency misuse,13,High,0.75,T-C33-010
+D-110,33,unstable service interaction,1,Low,0.25,T-C33-011
+D-111,33,schema/contract inconsistency,2,Low,0.25,T-C33-012
+D-112,35,observability gap,4,Moderate,0.5,T-C35-001
+D-113,35,dependency misuse,7,High,0.75,T-C35-002
+D-114,35,unstable service interaction,11,Critical,1.0,T-C35-003
+D-115,35,schema/contract inconsistency,4,Moderate,0.5,T-C35-004
+D-116,35,missing fallback,7,High,0.75,T-C35-005
+D-117,43,unstable service interaction,8,High,0.75,T-C43-001
+D-118,43,schema/contract inconsistency,9,Moderate,0.5,T-C43-002
+D-119,43,missing fallback,8,High,0.75,T-C43-003
+D-120,43,test-gap exposure,9,Moderate,0.5,T-C43-004

@@ -17,6 +17,7 @@ INDICATOR_NAMES = (
 
 @dataclass(frozen=True)
 class SyntheticSystem:
+    raw_indicators: np.ndarray
     indicators: np.ndarray
     fragility: np.ndarray
     pathway_criticality: np.ndarray
@@ -24,6 +25,20 @@ class SyntheticSystem:
     pathway_component_incidence: np.ndarray
     relevant_components: np.ndarray
     defect_counts: np.ndarray
+
+
+TRACE_NOT_APPLICABLE = -1
+TRACE_UNMAPPED = 0
+TRACE_PARTIAL = 1
+TRACE_COMPLETE = 2
+
+
+@dataclass(frozen=True)
+class RunInputs:
+    pathway_counts: np.ndarray
+    pathway_frequency: np.ndarray
+    observed_incidence: np.ndarray
+    trace_states: np.ndarray
 
 
 def winsorized_minmax(
@@ -85,9 +100,15 @@ def generate_system(config: ExperimentConfig) -> SyntheticSystem:
     )
     if config.n_pathways != len(base_concentration):
         base_concentration = np.linspace(5.0, 0.9, config.n_pathways)
-    frequency = rng.dirichlet(base_concentration)
-    frequency = np.maximum(frequency, config.rare_variant_threshold)
-    frequency = frequency / frequency.sum()
+    # The configured 14 pathways are the active primary set after the 0.5%
+    # filter. Generate directly on the probability simplex with that lower
+    # bound instead of clipping and renormalizing (which could reintroduce
+    # below-threshold values).
+    remaining_mass = 1.0 - config.n_pathways * config.rare_variant_threshold
+    frequency = (
+        config.rare_variant_threshold
+        + remaining_mass * rng.dirichlet(base_concentration)
+    )
 
     incidence = np.zeros((config.n_pathways, config.n_components), dtype=np.int8)
     component_load = np.zeros(config.n_components, dtype=float)
@@ -101,33 +122,24 @@ def generate_system(config: ExperimentConfig) -> SyntheticSystem:
         incidence[pathway, selected] = 1
         component_load[selected] += 1.0
 
-    frequency_exposure = (frequency[:, None] * incidence).sum(axis=0)
-    critical_exposure = ((frequency * criticality)[:, None] * incidence).sum(axis=0)
-    candidate_scores = {
-        "static": fragility,
-        "frequency": frequency_exposure,
-        "unweighted": fragility * frequency_exposure,
-        "full": fragility * critical_exposure,
-    }
-    normalized = {
-        name: (score - score.min()) / (score.max() - score.min() + 1e-12)
-        for name, score in candidate_scores.items()
-    }
-    latent = (
-        0.45 * normalized["full"]
-        + 0.20 * normalized["unweighted"]
-        + 0.20 * normalized["static"]
-        + 0.15 * normalized["frequency"]
-        + rng.normal(0.0, 0.08, config.n_components)
-    )
     relevant = np.zeros(config.n_components, dtype=bool)
-    relevant[np.argsort(latent)[-config.n_relevant_components :]] = True
+    relevant[np.asarray(config.relevant_component_ids, dtype=int)] = True
 
-    defect_probability = np.where(relevant, np.exp(latent - latent.max()), 0.0)
-    defect_probability /= defect_probability.sum()
-    defect_counts = rng.multinomial(config.n_injected_defects, defect_probability)
+    # Allocate at least one defect to every pre-specified relevant component.
+    # The remaining defect multiplicities use a dedicated random stream and do
+    # not depend on any CAD or baseline score.
+    defect_rng = np.random.default_rng(config.system_seed + 1)
+    relevant_ids = np.flatnonzero(relevant)
+    remaining_defects = config.n_injected_defects - len(relevant_ids)
+    relevant_counts = np.ones(len(relevant_ids), dtype=int)
+    if remaining_defects:
+        probabilities = defect_rng.dirichlet(np.ones(len(relevant_ids)))
+        relevant_counts += defect_rng.multinomial(remaining_defects, probabilities)
+    defect_counts = np.zeros(config.n_components, dtype=int)
+    defect_counts[relevant_ids] = relevant_counts
 
     return SyntheticSystem(
+        raw_indicators=raw,
         indicators=indicators,
         fragility=fragility,
         pathway_criticality=criticality,
@@ -142,7 +154,7 @@ def sample_run_inputs(
     system: SyntheticSystem,
     config: ExperimentConfig,
     seed: int,
-) -> tuple[np.ndarray, np.ndarray]:
+) -> RunInputs:
     """Resample pathway counts and trace-link states for one run."""
     rng = np.random.default_rng(seed)
     pathway_counts = rng.multinomial(config.n_activity_records, system.pathway_frequency)
@@ -150,7 +162,7 @@ def sample_run_inputs(
 
     incidence = system.pathway_component_incidence
     draw = rng.random(incidence.shape)
-    observed = np.zeros_like(incidence, dtype=float)
+    trace_states = np.full(incidence.shape, TRACE_NOT_APPLICABLE, dtype=np.int8)
     complete = (incidence == 1) & (draw < config.complete_trace_probability)
     partial = (
         (incidence == 1)
@@ -160,6 +172,18 @@ def sample_run_inputs(
             < config.complete_trace_probability + config.partial_trace_probability
         )
     )
-    observed[complete] = 1.0
-    observed[partial] = config.partial_trace_weight
-    return sampled_frequency, observed
+    unmapped = (incidence == 1) & ~(complete | partial)
+    trace_states[complete] = TRACE_COMPLETE
+    trace_states[partial] = TRACE_PARTIAL
+    trace_states[unmapped] = TRACE_UNMAPPED
+
+    # Equation (8) uses a binary membership indicator. A partially mapped
+    # activity has at least one reliable runtime assignment, so its observed
+    # membership remains one; an unmapped activity contributes zero.
+    observed = (complete | partial).astype(float)
+    return RunInputs(
+        pathway_counts=pathway_counts,
+        pathway_frequency=sampled_frequency,
+        observed_incidence=observed,
+        trace_states=trace_states,
+    )
