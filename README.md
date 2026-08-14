@@ -5,8 +5,6 @@ This repository provides an executable synthetic evaluation of the method in:
 
 > **Clinical-Architectural Debt: Process-Aware Maintenance Prioritization for Distributed Electronic Health Record Systems**
 
-Repository: **https://github.com/tanhaei/CAD**
-
 ## Scope and scientific-integrity notice
 
 The package contains no patient records, operational BioArc logs, or production traces. It generates a deterministic BioArc-like architecture and resamples pathway activity counts and trace-link states for 30 evaluation runs.
