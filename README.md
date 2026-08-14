@@ -1,6 +1,5 @@
 # Clinical-Architectural Debt (CAD): Synthetic Evaluation Package
 
-[![CI](https://github.com/tanhaei/CAD/actions/workflows/ci.yml/badge.svg)](https://github.com/tanhaei/CAD/actions/workflows/ci.yml)
 
 This repository provides an executable synthetic evaluation of the method in:
 
