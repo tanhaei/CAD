@@ -1,25 +1,36 @@
 from __future__ import annotations
 
 from pathlib import Path
-import json
-import numpy as np
-import pandas as pd
-import matplotlib as mpl
-import matplotlib.pyplot as plt
+from typing import Any
 
+import numpy as np
+
+from .article import write_article_values
 from .experiment import ExperimentResults
 
-mpl.rcParams.update(
-    {
-        "font.family": "DejaVu Sans",
-        "font.size": 10,
-        "pdf.fonttype": 42,
-        "ps.fonttype": 42,
-    }
-)
+
+def _pyplot() -> Any:
+    """Load the optional plotting dependency only when figures are requested."""
+    try:
+        import matplotlib as mpl
+        import matplotlib.pyplot as plt
+    except ModuleNotFoundError as exc:  # pragma: no cover - environment dependent
+        raise RuntimeError(
+            'Plotting requires the optional dependency: pip install -e ".[figures]"'
+        ) from exc
+    mpl.rcParams.update(
+        {
+            "font.family": "DejaVu Sans",
+            "font.size": 10,
+            "pdf.fonttype": 42,
+            "ps.fonttype": 42,
+        }
+    )
+    return plt
 
 
-def _save(fig: plt.Figure, output_dir: Path, stem: str) -> None:
+def _save(fig: Any, output_dir: Path, stem: str) -> None:
+    plt = _pyplot()
     fig.tight_layout()
     fig.savefig(output_dir / f"{stem}.pdf", bbox_inches="tight")
     fig.savefig(output_dir / f"{stem}.png", dpi=220, bbox_inches="tight")
@@ -27,6 +38,7 @@ def _save(fig: plt.Figure, output_dir: Path, stem: str) -> None:
 
 
 def plot_method_summary(results: ExperimentResults, output_dir: str | Path) -> None:
+    plt = _pyplot()
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
     frame = results.method_summary
@@ -47,6 +59,7 @@ def plot_method_summary(results: ExperimentResults, output_dir: str | Path) -> N
 
 
 def plot_ablation(results: ExperimentResults, output_dir: str | Path) -> None:
+    plt = _pyplot()
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
     frame = results.ablation_summary
@@ -67,6 +80,7 @@ def plot_ablation(results: ExperimentResults, output_dir: str | Path) -> None:
 
 
 def plot_sensitivity(results: ExperimentResults, output_dir: str | Path) -> None:
+    plt = _pyplot()
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
     frame = results.sensitivity_summary
@@ -92,6 +106,7 @@ def plot_precision_recall(results: ExperimentResults, output_dir: str | Path) ->
     This is generated from run-level synthetic rankings, not reconstructed from
     a previous manuscript image.
     """
+    plt = _pyplot()
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
     run_metrics = results.run_metrics
@@ -122,14 +137,8 @@ def plot_precision_recall(results: ExperimentResults, output_dir: str | Path) ->
 
 
 def write_manuscript_values(results: ExperimentResults, path: str | Path) -> None:
-    payload = {
-        "method_summary": results.method_summary.to_dict(orient="records"),
-        "ablation_summary": results.ablation_summary.to_dict(orient="records"),
-        "sensitivity_summary": results.sensitivity_summary.to_dict(orient="records"),
-        "runtime_summary": results.runtime_summary.to_dict(orient="records"),
-        "metadata": results.metadata,
-    }
-    Path(path).write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    """Backward-compatible alias for the renamed article-value writer."""
+    write_article_values(results, path)
 
 
 def generate_all_figures(results: ExperimentResults, output_dir: str | Path) -> None:

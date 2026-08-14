@@ -11,6 +11,7 @@ import time
 import numpy as np
 import pandas as pd
 
+from .article import ARTICLE_REVISION, write_article_values
 from .config import ExperimentConfig
 from .metrics import (
     bootstrap_mean_ci,
@@ -294,6 +295,8 @@ def _metadata(
 ) -> dict:
     return {
         "simulation_only": True,
+        "software_release": "0.3.0",
+        "article_revision": ARTICLE_REVISION,
         "repository": "https://github.com/tanhaei/CAD",
         "python": platform.python_version(),
         "platform": platform.platform(),
@@ -522,3 +525,4 @@ def write_results(results: ExperimentResults, output_dir: str | Path) -> None:
     ).to_csv(output / "pathway_summary.csv", index=False)
     run_pathways.to_csv(output / "run_pathway_summary.csv", index=False)
     trace_coverage.to_csv(output / "run_trace_coverage.csv", index=False)
+    write_article_values(results, output / "article_values.json")

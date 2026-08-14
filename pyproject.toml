@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cad-synthetic-replication"
-version = "0.2.0"
+version = "0.3.0"
 description = "Reproducible synthetic evaluation of Clinical-Architectural Debt"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
 authors = [
   {name = "Mohammad Tanhaei", email = "m.tanhaei@ilam.ac.ir"}
 ]
@@ -20,6 +20,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
+figures = ["matplotlib>=3.8"]
 
 [project.scripts]
 cad-sim = "cad_sim.cli:main"

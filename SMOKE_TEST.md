@@ -1,6 +1,6 @@
 # Validation report
 
-Date: 2026-07-10
+Date: 2026-08-14
 
 ## Full experiment
 
@@ -27,7 +27,7 @@ python -m pytest -q
 
 The suite checks article configuration, CAD equation arithmetic, binary trace membership, fixed and score-independent ground truth, ranking metrics, ablation/sensitivity shapes, committed-result integrity, deterministic reproduction, and output serialization.
 
-Result: **19 passed**.
+Result: **23 passed**.
 
 ## Quick experiment
 

@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "article_revision": "V2 (2026-08-14)",
+  "method_summary": [
+    {
+      "method": "Static fragility",
+      "p_at_10": 0.6,
+      "p_at_10_ci_low": 0.6,
+      "p_at_10_ci_high": 0.6,
+      "r_at_10": 0.5,
+      "r_at_10_ci_low": 0.5,
+      "r_at_10_ci_high": 0.5,
+      "map": 0.552168958492488,
+      "map_ci_low": 0.552168958492488,
+      "map_ci_high": 0.552168958492488,
+      "mrr": 0.5,
+      "cliffs_delta": 1.0,
+      "cliffs_delta_label": "large"
+    },
+    {
+      "method": "Frequency only",
+      "p_at_10": 0.49,
+      "p_at_10_ci_low": 0.46,
+      "p_at_10_ci_high": 0.51,
+      "r_at_10": 0.408333333333333,
+      "r_at_10_ci_low": 0.386111111111111,
+      "r_at_10_ci_high": 0.427777777777778,
+      "map": 0.527889256955069,
+      "map_ci_low": 0.511551528465332,
+      "map_ci_high": 0.542834751989058,
+      "mrr": 0.95,
+      "cliffs_delta": 1.0,
+      "cliffs_delta_label": "large"
+    },
+    {
+      "method": "Unweighted process-aware",
+      "p_at_10": 0.676666666666666,
+      "p_at_10_ci_low": 0.656666666666667,
+      "p_at_10_ci_high": 0.693333333333333,
+      "r_at_10": 0.563888888888889,
+      "r_at_10_ci_low": 0.547222222222222,
+      "r_at_10_ci_high": 0.577777777777778,
+      "map": 0.808087889904576,
+      "map_ci_low": 0.793122448166991,
+      "map_ci_high": 0.819420413006722,
+      "mrr": 1.0,
+      "cliffs_delta": 1.0,
+      "cliffs_delta_label": "large"
+    },
+    {
+      "method": "Full CAD",
+      "p_at_10": 0.986666666666667,
+      "p_at_10_ci_low": 0.97,
+      "p_at_10_ci_high": 0.996666666666667,
+      "r_at_10": 0.822222222222222,
+      "r_at_10_ci_low": 0.808333333333333,
+      "r_at_10_ci_high": 0.830555555555555,
+      "map": 0.960465083751771,
+      "map_ci_low": 0.947873005450042,
+      "map_ci_high": 0.970612794108919,
+      "mrr": 1.0,
+      "cliffs_delta": null,
+      "cliffs_delta_label": "reference"
+    }
+  ],
+  "ablation_summary": [
+    {
+      "configuration": "Full CAD",
+      "p_at_10": 0.986666666666667,
+      "r_at_10": 0.822222222222222,
+      "map": 0.960465083751771,
+      "top10_stability": 1.0
+    },
+    {
+      "configuration": "Without criticality",
+      "p_at_10": 0.676666666666666,
+      "r_at_10": 0.563888888888889,
+      "map": 0.808087889904576,
+      "top10_stability": 0.67
+    },
+    {
+      "configuration": "Without frequency",
+      "p_at_10": 0.88,
+      "r_at_10": 0.733333333333333,
+      "map": 0.899884225941877,
+      "top10_stability": 0.733333333333333
+    },
+    {
+      "configuration": "Without fragility",
+      "p_at_10": 0.65,
+      "r_at_10": 0.541666666666667,
+      "map": 0.688635142535435,
+      "top10_stability": 0.663333333333334
+    },
+    {
+      "configuration": "Without trace exposure",
+      "p_at_10": 0.6,
+      "r_at_10": 0.5,
+      "map": 0.552168958492488,
+      "top10_stability": 0.48
+    }
+  ],
+  "sensitivity_summary": [
+    {
+      "perturbation": "Uniform fragility weights",
+      "top10_overlap": 9.833333333333334,
+      "spearman_rho": 0.99806273227824,
+      "kendall_tau": 0.97920100716784
+    },
+    {
+      "perturbation": "Alternative criticality mapping",
+      "top10_overlap": 8.3,
+      "spearman_rho": 0.969215181972864,
+      "kendall_tau": 0.871236314219889
+    },
+    {
+      "perturbation": "Frequency threshold 1.0%",
+      "top10_overlap": 10.0,
+      "spearman_rho": 0.999576074957591,
+      "kendall_tau": 0.995373222790859
+    },
+    {
+      "perturbation": "Trace completeness reduced by 20%",
+      "top10_overlap": 7.933333333333334,
+      "spearman_rho": 0.871080633414491,
+      "kendall_tau": 0.766378208771278
+    },
+    {
+      "perturbation": "Trace completeness increased by 20%",
+      "top10_overlap": 9.966666666666669,
+      "spearman_rho": 0.990543160581606,
+      "kendall_tau": 0.980161831449299
+    }
+  ],
+  "runtime_summary": [
+    {
+      "method": "Static fragility",
+      "mean_seconds": 0.002894497200032,
+      "std_seconds": 0.000425578224903
+    },
+    {
+      "method": "Frequency only",
+      "mean_seconds": 0.003233786200053,
+      "std_seconds": 0.000566887687854
+    },
+    {
+      "method": "Unweighted process-aware",
+      "mean_seconds": 0.003170366449967,
+      "std_seconds": 0.00042409198405
+    },
+    {
+      "method": "Full CAD",
+      "mean_seconds": 0.003367496800047,
+      "std_seconds": 0.000451663890239
+    }
+  ],
+  "metadata": {
+    "simulation_only": true,
+    "software_release": "0.3.0",
+    "article_revision": "V2 (2026-08-14)",
+    "repository": "https://github.com/tanhaei/CAD",
+    "python": "3.12.13",
+    "platform": "Linux-6.12.47-x86_64-with-glibc2.39",
+    "logical_cpu_count": 9,
+    "peak_process_memory_mb": 133.5390625,
+    "analysis_wall_clock_seconds": 2.046027010999751,
+    "normalization": "5th--95th percentile winsorized min--max scaling to [0,1]",
+    "bootstrap": {
+      "unit": "evaluation run",
+      "method": "BCa",
+      "resamples": 10000,
+      "confidence_level": 0.95
+    },
+    "synthetic_scope": {
+      "active_pathways_generated_directly": true,
+      "process_discovery_executed": false,
+      "case_level_trace_completeness_simulated": false,
+      "configured_process_algorithm": "Inductive Miner",
+      "configured_process_noise_threshold": 0.8,
+      "reported_complete_case_probability": 0.641
+    },
+    "run_randomization": "multinomial pathway-count resampling and stochastic resampling of complete, partial, and unmapped trace-link states; relevance labels remain fixed",
+    "runtime_includes": "fragility normalization, pathway-frequency resampling, trace-state resampling, exposure aggregation, method-specific scoring, and ranking",
+    "runtime_excludes": "database extraction, log export/transfer, one-time environment initialization, and result serialization",
+    "runtime_benchmark": {
+      "repeats": 20,
+      "evaluation_runs_per_repeat": 30
+    },
+    "config": {
+      "n_components": 45,
+      "n_pathways": 14,
+      "n_activity_records": 500000,
+      "n_runs": 30,
+      "first_seed": 42,
+      "n_relevant_components": 12,
+      "n_injected_defects": 120,
+      "relevant_component_ids": [
+        3,
+        6,
+        10,
+        14,
+        20,
+        29,
+        30,
+        31,
+        32,
+        33,
+        35,
+        43
+      ],
+      "criticality_mapping": [
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "alternative_criticality_mapping": [
+        0.1,
+        0.4,
+        0.7,
+        1.0
+      ],
+      "criticality_band_counts": [
+        4,
+        5,
+        3,
+        2
+      ],
+      "fragility_weights": [
+        0.2,
+        0.15,
+        0.25,
+        0.2,
+        0.2
+      ],
+      "normalization_lower_quantile": 0.05,
+      "normalization_upper_quantile": 0.95,
+      "complete_trace_probability": 0.785,
+      "partial_trace_probability": 0.152,
+      "unmapped_trace_probability": 0.063,
+      "complete_case_probability": 0.641,
+      "process_algorithm": "Inductive Miner",
+      "process_noise_threshold": 0.8,
+      "rare_variant_threshold": 0.005,
+      "sensitivity_variant_threshold": 0.01,
+      "bootstrap_resamples": 10000,
+      "bootstrap_confidence_level": 0.95,
+      "system_seed": 1584
+    },
+    "relevant_component_ids": [
+      3,
+      6,
+      10,
+      14,
+      20,
+      29,
+      30,
+      31,
+      32,
+      33,
+      35,
+      43
+    ],
+    "defect_count_total": 120,
+    "realized_trace_coverage_mean": {
+      "complete": 0.7875000000000001,
+      "partial": 0.14935897435897433,
+      "unmapped": 0.06314102564102565
+    },
+    "end_to_end_wall_clock_seconds": 2.08102431000043
+  }
+}

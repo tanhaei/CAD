@@ -12,7 +12,7 @@ Repository: **https://github.com/tanhaei/CAD**
 
 The package contains no patient records, operational BioArc logs, or production traces. It generates a deterministic BioArc-like architecture and resamples pathway activity counts and trace-link states for 30 evaluation runs.
 
-Version 0.2 removes the previous outcome-aware ranking calibration. Ground-truth relevance is now fixed in configuration before scoring, and neither relevance labels nor defect counts are passed to a ranking function. Consequently, the generated values are the direct outputs of the equations and declared perturbations; they are not forced to reproduce a target table.
+Version 0.3 aligns the code and committed artifacts with the corrected V2 article. It removes the previous outcome-aware ranking calibration, fixes ground-truth relevance in configuration before scoring, and prevents relevance labels or defect counts from reaching a ranking function. Consequently, the generated values are the direct outputs of the equations and declared perturbations; they are not forced to reproduce a target table.
 
 The corrected article source uses the current generated results. Earlier article/PDF revisions may contain values produced by the removed calibration. In particular, static fragility is fixed across runs under the declared resampling design, so its run-level confidence interval is necessarily degenerate. See `CODE_ARTICLE_ALIGNMENT.md` for the correction record.
 
@@ -66,6 +66,12 @@ python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
 ```
 
+An exact dependency lock is also supplied for `uv` users:
+
+```bash
+uv sync --extra dev --frozen
+```
+
 Run the complete experiment:
 
 ```bash
@@ -99,12 +105,21 @@ python scripts/run_experiment.py \
 - `results/ablation_summary.csv`: removal of criticality, frequency, fragility, and trace exposure;
 - `results/sensitivity_summary.csv`: full-ranking agreement under five perturbations;
 - `results/runtime_summary.csv`: environment-dependent method-specific timings;
+- `results/article_values.json`: strict-JSON, full-precision snapshot synchronized with the corrected V2 article;
 - `results/component_ground_truth.csv`: fixed component relevance and defect counts;
 - `results/defect_ground_truth.csv`: 120 defect-level records with category, pathway, criticality, and test ID;
 - `results/pathway_summary.csv`: base pathway frequency and criticality;
 - `results/run_pathway_summary.csv`: resampled counts and frequencies for every seed;
 - `results/run_trace_coverage.csv`: realized complete, partial, and unmapped link proportions;
 - `results/metadata.json`: configuration, environment, timing scope, and reproducibility metadata.
+
+Synchronize the machine-readable article snapshot from the committed CSV and metadata files without rerunning the experiment:
+
+```bash
+make article-values
+```
+
+The effectiveness, ablation, and sensitivity outputs are deterministic under the committed configuration and seeds. Runtime and memory measurements are reference-environment values and will change when the full experiment is rerun elsewhere.
 
 ## Current regenerated results
 

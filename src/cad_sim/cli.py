@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import time
 
+from .article import write_article_values
 from .config import ExperimentConfig
 from .experiment import run_experiment, write_results
 
@@ -65,6 +66,9 @@ def main(argv: list[str] | None = None) -> int:
         json.dumps(results.metadata, indent=2),
         encoding="utf-8",
     )
+    # Refresh the article snapshot after adding the end-to-end timing field so
+    # its metadata is identical to metadata.json.
+    write_article_values(results, args.output_dir / "article_values.json")
     print(results.method_summary.to_string(index=False))
     print("\nAblation")
     print(results.ablation_summary.to_string(index=False))

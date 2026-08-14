@@ -25,8 +25,8 @@ def ranking_metrics(order: np.ndarray, relevant: np.ndarray) -> RankingMetrics:
     relevant = np.asarray(relevant, dtype=bool)
     if order.shape != (len(relevant),):
         raise ValueError("order must contain one position for every component")
-    if len(np.unique(order)) != len(order):
-        raise ValueError("order contains duplicate component indices")
+    if not np.array_equal(np.sort(order), np.arange(len(relevant))):
+        raise ValueError("order must be a permutation of the component indices")
     ranked_relevance = relevant[order].astype(int)
     relevant_count = int(relevant.sum())
     if relevant_count == 0:
@@ -93,8 +93,22 @@ def ranking_agreement(
     perturbed_score: np.ndarray,
     k: int = 10,
 ) -> tuple[int, float, float]:
-    baseline_order = np.argsort(baseline_score)[::-1]
-    perturbed_order = np.argsort(perturbed_score)[::-1]
+    baseline_score = np.asarray(baseline_score, dtype=float)
+    perturbed_score = np.asarray(perturbed_score, dtype=float)
+    if baseline_score.shape != perturbed_score.shape:
+        raise ValueError("ranking scores must have the same shape")
+    if baseline_score.ndim != 1 or not (
+        np.isfinite(baseline_score).all() and np.isfinite(perturbed_score).all()
+    ):
+        raise ValueError("ranking scores must be finite one-dimensional arrays")
+    if not 0 < k <= len(baseline_score):
+        raise ValueError("k must be between one and the number of components")
+
+    component_ids = np.arange(len(baseline_score))
+    # Match the article's declared deterministic rule: descending score, then
+    # ascending component ID for exact ties.
+    baseline_order = np.lexsort((component_ids, -baseline_score))
+    perturbed_order = np.lexsort((component_ids, -perturbed_score))
     overlap = len(set(baseline_order[:k]) & set(perturbed_order[:k]))
     rho = float(spearmanr(baseline_score, perturbed_score).statistic)
     tau = float(kendalltau(baseline_score, perturbed_score).statistic)

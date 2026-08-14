@@ -23,6 +23,13 @@ def test_ranking_agreement_identity() -> None:
     assert np.isclose(tau, 1.0)
 
 
+def test_ranking_agreement_uses_component_id_for_exact_ties() -> None:
+    baseline = np.array([1.0, 1.0, 1.0, 0.0])
+    perturbed = np.array([1.0, 0.9, 0.8, 0.0])
+    overlap, _, _ = ranking_agreement(baseline, perturbed, k=2)
+    assert overlap == 2
+
+
 def test_cliffs_delta_sign() -> None:
     better = np.array([0.8, 0.9, 1.0])
     worse = np.array([0.1, 0.2, 0.3])

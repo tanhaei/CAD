@@ -41,6 +41,7 @@ def test_quick_experiment_smoke(tmp_path: Path) -> None:
         "pathway_summary.csv",
         "run_pathway_summary.csv",
         "run_trace_coverage.csv",
+        "article_values.json",
     }
     assert expected_results.issubset({path.name for path in result_dir.iterdir()})
 

@@ -1,5 +1,7 @@
 {
   "simulation_only": true,
+  "software_release": "0.3.0",
+  "article_revision": "V2 (2026-08-14)",
   "repository": "https://github.com/tanhaei/CAD",
   "python": "3.12.13",
   "platform": "Linux-6.12.47-x86_64-with-glibc2.39",
