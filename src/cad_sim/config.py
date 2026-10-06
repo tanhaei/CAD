@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from pathlib import Path
 import json
+import math
 
 
 @dataclass(frozen=True)
@@ -15,10 +16,10 @@ class ExperimentConfig:
     n_runs: int = 30
     first_seed: int = 42
     n_relevant_components: int = 12
+    # Legacy API name: counts synthetic label records, not executed mutations.
     n_injected_defects: int = 120
-    # Fixed before scoring, as required by the manuscript's injected-defect
-    # protocol. Keeping the IDs in configuration prevents outcome labels from
-    # being derived from, or fed back into, any ranking method.
+    # Fixed labels are excluded from scoring. Configuration alone does not
+    # establish independent provenance for the original selection of these IDs.
     relevant_component_ids: tuple[int, ...] = (
         3,
         6,
@@ -61,10 +62,6 @@ class ExperimentConfig:
     complete_trace_probability: float = 0.785
     partial_trace_probability: float = 0.152
     unmapped_trace_probability: float = 0.063
-    complete_case_probability: float = 0.641
-
-    process_algorithm: str = "Inductive Miner"
-    process_noise_threshold: float = 0.8
     rare_variant_threshold: float = 0.005
     sensitivity_variant_threshold: float = 0.01
 
@@ -77,6 +74,33 @@ class ExperimentConfig:
         return range(self.first_seed, self.first_seed + self.n_runs)
 
     def validate(self) -> None:
+        integer_fields = (
+            "n_components", "n_pathways", "n_activity_records", "n_runs",
+            "first_seed", "n_relevant_components", "n_injected_defects",
+            "bootstrap_resamples", "system_seed",
+        )
+        for name in integer_fields:
+            value = getattr(self, name)
+            if isinstance(value, bool) or not isinstance(value, int):
+                raise ValueError(f"{name} must be an integer")
+        if self.n_runs < 2:
+            raise ValueError("n_runs must be at least two for run-level intervals")
+        if self.first_seed < 0 or self.system_seed < 0:
+            raise ValueError("random seeds must be nonnegative")
+        numeric_groups = (
+            self.fragility_weights, self.criticality_mapping,
+            self.alternative_criticality_mapping,
+            (self.complete_trace_probability, self.partial_trace_probability,
+             self.unmapped_trace_probability, self.normalization_lower_quantile,
+             self.normalization_upper_quantile, self.rare_variant_threshold,
+             self.sensitivity_variant_threshold, self.bootstrap_confidence_level),
+        )
+        if any(not math.isfinite(value) for group in numeric_groups for value in group):
+            raise ValueError("configuration numbers must be finite")
+        if any(isinstance(value, bool) or not isinstance(value, int) for value in self.relevant_component_ids):
+            raise ValueError("component identifiers must be integers")
+        if any(isinstance(value, bool) or not isinstance(value, int) or value < 0 for value in self.criticality_band_counts):
+            raise ValueError("criticality counts must be nonnegative integers")
         if self.n_components <= 10:
             raise ValueError("n_components must be greater than 10")
         if self.n_pathways <= 0:
@@ -140,7 +164,6 @@ class ExperimentConfig:
                 self.complete_trace_probability,
                 self.partial_trace_probability,
                 self.unmapped_trace_probability,
-                self.complete_case_probability,
             )
         ):
             raise ValueError("trace and case probabilities must be in [0, 1]")
@@ -157,8 +180,6 @@ class ExperimentConfig:
                 "sensitivity_variant_threshold must be at least the primary "
                 "threshold and less than one"
             )
-        if not 0.0 <= self.process_noise_threshold <= 1.0:
-            raise ValueError("process_noise_threshold must be in [0, 1]")
         if self.bootstrap_resamples <= 0:
             raise ValueError("bootstrap_resamples must be positive")
         if not 0.0 < self.bootstrap_confidence_level < 1.0:

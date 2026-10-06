@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 import numpy as np
 
 from .config import ExperimentConfig
@@ -12,6 +13,42 @@ METHODS = (
     "Unweighted process-aware",
     "Full CAD",
 )
+
+LINK_DELETION = "Independent deletion of observed links (p=0.20)"
+LINK_RECOVERY = "Oracle recovery of missing true links (p=0.20)"
+
+
+def fragility_without_indicator(
+    indicators: np.ndarray, weights: tuple[float, ...], index: int
+) -> np.ndarray:
+    """Exclude an indicator from scoring and renormalize remaining weights."""
+    remaining = np.asarray(weights, dtype=float).copy()
+    if not 0 <= index < len(remaining):
+        raise ValueError("indicator index is out of range")
+    remaining[index] = 0.0
+    if not np.isfinite(remaining).all() or np.any(remaining < 0) or remaining.sum() <= 0:
+        raise ValueError("remaining weights must be finite, nonnegative and nonzero")
+    return np.asarray(indicators, dtype=float) @ (remaining / remaining.sum())
+
+
+def score_density_exclusion(
+    system: SyntheticSystem,
+    sampled_frequency: np.ndarray,
+    observed_incidence: np.ndarray,
+    config: ExperimentConfig,
+) -> dict[str, np.ndarray]:
+    """Scoring-only ablation; incidence generation and labels stay fixed."""
+    ablated = replace(
+        system,
+        fragility=fragility_without_indicator(system.indicators, config.fragility_weights, 2),
+    )
+    full = score_methods(system, sampled_frequency, observed_incidence)
+    excluded = score_methods(ablated, sampled_frequency, observed_incidence)
+    return {
+        "Full CAD": full["Full CAD"],
+        "CAD without recent defect density": excluded["Full CAD"],
+        "Static fragility without recent defect density": excluded["Static fragility"],
+    }
 
 
 def score_methods(
@@ -143,8 +180,8 @@ def score_sensitivity_variants(
         "Uniform fragility weights": uniform_fragility * base_exposure,
         "Alternative criticality mapping": system.fragility * alternative_exposure,
         "Frequency threshold 1.0%": system.fragility * threshold_exposure,
-        "Trace completeness reduced by 20%": system.fragility * reduced_exposure,
-        "Trace completeness increased by 20%": system.fragility * increased_exposure,
+        LINK_DELETION: system.fragility * reduced_exposure,
+        LINK_RECOVERY: system.fragility * increased_exposure,
     }
 
 

@@ -8,6 +8,7 @@ import time
 from .article import write_article_values
 from .config import ExperimentConfig
 from .experiment import run_experiment, write_results
+from .manuscript import write_manuscript_results
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -69,11 +70,14 @@ def main(argv: list[str] | None = None) -> int:
     # Refresh the article snapshot after adding the end-to-end timing field so
     # its metadata is identical to metadata.json.
     write_article_values(results, args.output_dir / "article_values.json")
+    write_manuscript_results(args.output_dir)
     print(results.method_summary.to_string(index=False))
     print("\nAblation")
     print(results.ablation_summary.to_string(index=False))
     print("\nSensitivity")
     print(results.sensitivity_summary.to_string(index=False))
+    print("\nDensity-exclusion diagnostic")
+    print(results.density_ablation_summary.to_string(index=False))
     print("\nRuntime")
     print(results.runtime_summary.to_string(index=False))
     return 0

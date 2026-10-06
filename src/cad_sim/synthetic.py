@@ -50,6 +50,10 @@ def winsorized_minmax(
     values = np.asarray(values, dtype=float)
     if values.ndim != 2:
         raise ValueError("values must be a two-dimensional indicator matrix")
+    if not values.size or not np.isfinite(values).all():
+        raise ValueError("indicators must be nonempty and finite")
+    if not 0 <= lower_quantile < upper_quantile <= 1:
+        raise ValueError("normalization quantiles are invalid")
     low = np.quantile(values, lower_quantile, axis=0)
     high = np.quantile(values, upper_quantile, axis=0)
     clipped = np.clip(values, low, high)

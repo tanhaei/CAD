@@ -1,0 +1,2 @@
+[console_scripts]
+cad-sim = cad_sim.cli:main

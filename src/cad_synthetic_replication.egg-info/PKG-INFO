@@ -1,3 +1,21 @@
+Metadata-Version: 2.4
+Name: cad-synthetic-replication
+Version: 0.4.0
+Summary: Reproducible synthetic evaluation of Clinical-Architectural Debt
+Author-email: Mohammad Tanhaei <m.tanhaei@ilam.ac.ir>
+License-Expression: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.26
+Requires-Dist: pandas>=2.0
+Requires-Dist: scipy>=1.11
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+Provides-Extra: figures
+Requires-Dist: matplotlib>=3.8; extra == "figures"
+Dynamic: license-file
+
 # Clinical-Architectural Debt: synthetic scoring replication
 
 This local version 0.4.0 accompanies `../V3.tex`. The previously referenced project URL is https://github.com/tanhaei/CAD; these local changes have not been pushed or published there.
@@ -55,7 +73,3 @@ Full CAD P@10=0.986667, R@10=0.822222, MAP=0.960465. Density-excluded CAD P@10=0
 The package does not compare an implemented established architectural-debt prioritization tool, demonstrate production scalability, or measure benefits of CAD-guided maintenance. Future validation requires independently attributed natural incidents and maintenance records, historical predictors before a declared cutoff, actual process discovery and trace alignment, and multiple EHR architectures. See `CODE_ARTICLE_ALIGNMENT.md` and `SMOKE_TEST.md` for the current audit.
 
 Code license: MIT. Citation metadata: `CITATION.cff`.
-
-## Additional supplied-data audit
-
-Five architecture/maintenance CSVs under `../data` are identified by the author as real. They support a separate consistency audit and static T1/T2 retrieval, not full operational CAD. Run `python scripts/audit_data.py --data-dir ../data --output-dir results/data_audit` from `git`. Sources are preserved; Table 10 reports P@10=0.100, R@10=0.083 and AP=0.227. Ca scope disagreements and missing extraction/indicator/attribution provenance are disclosed. Historical pathway, criticality and event/trace inputs remain unavailable. See `data/README.md` in the article directory and the audit JSON.

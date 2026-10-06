@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 from pathlib import Path
 import json
+import hashlib
 import os
 import platform
 import resource
@@ -22,8 +23,11 @@ from .metrics import (
 )
 from .scoring import (
     METHODS,
+    LINK_DELETION,
+    LINK_RECOVERY,
     rank_scores,
     score_ablations,
+    score_density_exclusion,
     score_method,
     score_methods,
     score_sensitivity_variants,
@@ -48,6 +52,8 @@ class ExperimentResults:
     run_metrics: pd.DataFrame
     ablation_summary: pd.DataFrame
     sensitivity_summary: pd.DataFrame
+    density_ablation_summary: pd.DataFrame
+    density_ablation_runs: pd.DataFrame
     runtime_summary: pd.DataFrame
     metadata: dict
     system: SyntheticSystem
@@ -130,11 +136,12 @@ def _ablation_runs(
     system: SyntheticSystem,
     config: ExperimentConfig,
     run_inputs: dict[int, RunInputs],
+    score_function=score_ablations,
 ) -> pd.DataFrame:
     rows: list[dict] = []
     for seed in config.seeds:
         inputs = run_inputs[seed]
-        scores = score_ablations(
+        scores = score_function(
             system,
             inputs.pathway_frequency,
             inputs.observed_incidence,
@@ -159,13 +166,7 @@ def _ablation_runs(
 
 
 def _summarize_ablation(ablation_runs: pd.DataFrame) -> pd.DataFrame:
-    order = (
-        "Full CAD",
-        "Without criticality",
-        "Without frequency",
-        "Without fragility",
-        "Without trace exposure",
-    )
+    order = tuple(ablation_runs["configuration"].drop_duplicates())
     rows = []
     for name in order:
         subset = ablation_runs.loc[ablation_runs["configuration"] == name]
@@ -220,8 +221,8 @@ def _summarize_sensitivity(sensitivity_runs: pd.DataFrame) -> pd.DataFrame:
         "Uniform fragility weights",
         "Alternative criticality mapping",
         "Frequency threshold 1.0%",
-        "Trace completeness reduced by 20%",
-        "Trace completeness increased by 20%",
+        LINK_DELETION,
+        LINK_RECOVERY,
     )
     rows = []
     for name in order:
@@ -295,7 +296,14 @@ def _metadata(
 ) -> dict:
     return {
         "simulation_only": True,
-        "software_release": "0.3.0",
+        "software_release": "0.4.0",
+        "source_sha256": {
+            "src/cad_sim/" + path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in sorted(Path(__file__).parent.glob("*.py"))
+        },
+        "normalized_config_sha256": hashlib.sha256(
+            json.dumps(config.to_dict(), sort_keys=True, allow_nan=False).encode()
+        ).hexdigest(),
         "article_revision": ARTICLE_REVISION,
         "repository": "https://github.com/tanhaei/CAD",
         "python": platform.python_version(),
@@ -316,9 +324,11 @@ def _metadata(
             "active_pathways_generated_directly": True,
             "process_discovery_executed": False,
             "case_level_trace_completeness_simulated": False,
-            "configured_process_algorithm": config.process_algorithm,
-            "configured_process_noise_threshold": config.process_noise_threshold,
-            "reported_complete_case_probability": config.complete_case_probability,
+            "criticality_is_configured_and_permuted": True,
+            "executable_fault_injection_performed": False,
+            "target_selection_provenance_established": False,
+            "indicators_measured_from_production": False,
+            "density_exclusion_scope": "scoring only; original incidence matrix retained",
         },
         "run_randomization": (
             "multinomial pathway-count resampling and stochastic resampling of "
@@ -354,6 +364,12 @@ def run_experiment(config: ExperimentConfig | None = None) -> ExperimentResults:
     ablation_runs = _ablation_runs(system, config, run_inputs)
     ablation_summary = _summarize_ablation(ablation_runs)
 
+    density_runs = _ablation_runs(
+        system, config, run_inputs,
+        score_function=lambda s, f, m: score_density_exclusion(s, f, m, config),
+    )
+    density_summary = _summarize_ablation(density_runs)
+
     sensitivity_runs = _sensitivity_runs(system, config, run_inputs)
     sensitivity_summary = _summarize_sensitivity(sensitivity_runs)
 
@@ -364,7 +380,7 @@ def run_experiment(config: ExperimentConfig | None = None) -> ExperimentResults:
     # supplied smoke test use Linux, but handle both conventions defensively.
     raw_peak = max(before_peak, after_peak)
     peak_memory_mb = raw_peak / 1024.0
-    if peak_memory_mb > 100_000:
+    if platform.system() == "Darwin":
         peak_memory_mb = raw_peak / (1024.0 * 1024.0)
 
     analysis_wall_clock_seconds = time.perf_counter() - started_at
@@ -383,6 +399,8 @@ def run_experiment(config: ExperimentConfig | None = None) -> ExperimentResults:
         run_metrics=run_metrics,
         ablation_summary=ablation_summary,
         sensitivity_summary=sensitivity_summary,
+        density_ablation_summary=density_summary,
+        density_ablation_runs=density_runs,
         runtime_summary=runtime_summary,
         metadata=metadata,
         system=system,
@@ -417,13 +435,9 @@ def _defect_ground_truth(results: ExperimentResults) -> pd.DataFrame:
         pathways = np.flatnonzero(
             results.system.pathway_component_incidence[:, component_id]
         )
-        if not len(pathways):
-            raise RuntimeError(
-                f"relevant component {component_id} has no pathway exposure"
-            )
         for local_index in range(int(count)):
-            pathway_id = int(pathways[local_index % len(pathways)])
-            criticality = float(results.system.pathway_criticality[pathway_id])
+            pathway_id = int(pathways[local_index % len(pathways)]) if len(pathways) else None
+            criticality = float(results.system.pathway_criticality[pathway_id]) if pathway_id is not None else None
             rows.append(
                 {
                     "defect_id": f"D-{defect_number:03d}",
@@ -432,9 +446,11 @@ def _defect_ground_truth(results: ExperimentResults) -> pd.DataFrame:
                         (component_id + local_index) % len(DEFECT_CATEGORIES)
                     ],
                     "affected_pathway_id": pathway_id,
-                    "criticality_band": _criticality_band(criticality, mapping),
+                    "criticality_band": _criticality_band(criticality, mapping) if criticality is not None else None,
                     "criticality_score": criticality,
                     "related_test_id": f"T-C{component_id:02d}-{local_index + 1:03d}",
+                    "test_executed": False,
+                    "executable_fault": False,
                 }
             )
             defect_number += 1
@@ -499,6 +515,8 @@ def write_results(results: ExperimentResults, output_dir: str | Path) -> None:
     results.run_metrics.to_csv(output / "run_metrics.csv", index=False)
     results.ablation_summary.to_csv(output / "ablation_summary.csv", index=False)
     results.sensitivity_summary.to_csv(output / "sensitivity_summary.csv", index=False)
+    results.density_ablation_summary.to_csv(output / "density_ablation_summary.csv", index=False)
+    results.density_ablation_runs.to_csv(output / "density_ablation_runs.csv", index=False)
     results.runtime_summary.to_csv(output / "runtime_summary.csv", index=False)
     (output / "metadata.json").write_text(
         json.dumps(results.metadata, indent=2), encoding="utf-8"

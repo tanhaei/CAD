@@ -21,7 +21,10 @@ class RankingMetrics:
 
 
 def ranking_metrics(order: np.ndarray, relevant: np.ndarray) -> RankingMetrics:
-    order = np.asarray(order, dtype=int)
+    raw_order = np.asarray(order)
+    if not np.issubdtype(raw_order.dtype, np.integer):
+        raise ValueError("ranking indices must be integers")
+    order = raw_order.astype(int)
     relevant = np.asarray(relevant, dtype=bool)
     if order.shape != (len(relevant),):
         raise ValueError("order must contain one position for every component")
@@ -55,6 +58,8 @@ def bootstrap_mean_ci(
     values = np.asarray(values, dtype=float)
     if values.ndim != 1 or len(values) < 2:
         raise ValueError("bootstrap values must be one-dimensional with length >= 2")
+    if not np.isfinite(values).all():
+        raise ValueError("bootstrap values must be finite")
     if np.allclose(values, values[0]):
         return float(values[0]), float(values[0])
     result = bootstrap(

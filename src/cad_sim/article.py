@@ -1,4 +1,4 @@
-"""Machine-readable values used by the corrected V2 article.
+"""Machine-readable values used by the V3 article.
 
 The article reports rounded values, while this module preserves the full
 precision committed in the result tables.  JSON serialization is deliberately
@@ -18,12 +18,13 @@ if TYPE_CHECKING:
     from .experiment import ExperimentResults
 
 
-ARTICLE_REVISION = "V2 (2026-08-14)"
+ARTICLE_REVISION = "V3 (2026-10-06)"
 SUMMARY_FILES = {
     "method_summary": "method_summary.csv",
     "ablation_summary": "ablation_summary.csv",
     "sensitivity_summary": "sensitivity_summary.csv",
     "runtime_summary": "runtime_summary.csv",
+    "density_ablation_summary": "density_ablation_summary.csv",
 }
 
 
@@ -41,6 +42,7 @@ def article_values_payload(results: ExperimentResults) -> dict[str, Any]:
         "ablation_summary": _records(results.ablation_summary),
         "sensitivity_summary": _records(results.sensitivity_summary),
         "runtime_summary": _records(results.runtime_summary),
+        "density_ablation_summary": _records(results.density_ablation_summary),
         "metadata": results.metadata,
     }
 

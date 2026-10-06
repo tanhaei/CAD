@@ -51,7 +51,7 @@ def plot_method_summary(results: ExperimentResults, output_dir: str | Path) -> N
         ax.bar(x + (index - 1.5) * width, frame[column], width, label=label)
     ax.set_xticks(x, frame["method"], rotation=12, ha="right")
     ax.set_ylim(0, 1.05)
-    ax.set_ylabel("Mean score across 30 runs")
+    ax.set_ylabel(f"Mean score across {results.metadata['config']['n_runs']} runs")
     ax.set_title("Synthetic CAD ranking effectiveness")
     ax.grid(axis="y", linewidth=0.6, alpha=0.35)
     ax.legend(ncol=4)
@@ -72,7 +72,7 @@ def plot_ablation(results: ExperimentResults, output_dir: str | Path) -> None:
         ax.bar(x + (index - 1.5) * width, frame[column], width, label=label)
     ax.set_xticks(x, frame["configuration"], rotation=14, ha="right")
     ax.set_ylim(0, 1.05)
-    ax.set_ylabel("Mean score across 30 runs")
+    ax.set_ylabel(f"Mean score across {results.metadata['config']['n_runs']} runs")
     ax.set_title("Synthetic CAD ablation analysis")
     ax.grid(axis="y", linewidth=0.6, alpha=0.35)
     ax.legend(ncol=2)
@@ -101,7 +101,7 @@ def plot_sensitivity(results: ExperimentResults, output_dir: str | Path) -> None
 
 
 def plot_precision_recall(results: ExperimentResults, output_dir: str | Path) -> None:
-    """Plot PR points from the 30 synthetic ranked outputs.
+    """Plot P@10/R@10 operating points from the synthetic run outputs.
 
     This is generated from run-level synthetic rankings, not reconstructed from
     a previous manuscript image.
