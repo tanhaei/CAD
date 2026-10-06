@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Synchronize the machine-readable V2 article values from committed results."""
+"""Synchronize the machine-readable V3 article values from committed results."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ import argparse
 from pathlib import Path
 
 from cad_sim.article import sync_committed_article_values
+from cad_sim.manuscript import write_manuscript_results
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -25,6 +26,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
     output = sync_committed_article_values(args.results_dir, args.output)
+    write_manuscript_results(args.results_dir)
     print(f"Wrote {output}")
     return 0
 

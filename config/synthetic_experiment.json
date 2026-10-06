@@ -6,19 +6,50 @@
   "first_seed": 42,
   "n_relevant_components": 12,
   "n_injected_defects": 120,
-  "relevant_component_ids": [3, 6, 10, 14, 20, 29, 30, 31, 32, 33, 35, 43],
-  "criticality_mapping": [0.25, 0.5, 0.75, 1.0],
-  "alternative_criticality_mapping": [0.1, 0.4, 0.7, 1.0],
-  "criticality_band_counts": [4, 5, 3, 2],
-  "fragility_weights": [0.2, 0.15, 0.25, 0.2, 0.2],
+  "relevant_component_ids": [
+    3,
+    6,
+    10,
+    14,
+    20,
+    29,
+    30,
+    31,
+    32,
+    33,
+    35,
+    43
+  ],
+  "criticality_mapping": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "alternative_criticality_mapping": [
+    0.1,
+    0.4,
+    0.7,
+    1.0
+  ],
+  "criticality_band_counts": [
+    4,
+    5,
+    3,
+    2
+  ],
+  "fragility_weights": [
+    0.2,
+    0.15,
+    0.25,
+    0.2,
+    0.2
+  ],
   "normalization_lower_quantile": 0.05,
   "normalization_upper_quantile": 0.95,
   "complete_trace_probability": 0.785,
   "partial_trace_probability": 0.152,
   "unmapped_trace_probability": 0.063,
-  "complete_case_probability": 0.641,
-  "process_algorithm": "Inductive Miner",
-  "process_noise_threshold": 0.8,
   "rare_variant_threshold": 0.005,
   "sensitivity_variant_threshold": 0.01,
   "bootstrap_resamples": 10000,

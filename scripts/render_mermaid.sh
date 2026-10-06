@@ -1,21 +1,11 @@
 #!/usr/bin/env bash
+# Deprecated: the reduced package contains no Mermaid sources.
+# Reproduce V3 vector diagrams with the supplied ReportLab authoring script.
 set -euo pipefail
-
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-mkdir -p "$ROOT/manuscript/figures"
-
-render() {
-  local input="$1"
-  local output="$2"
-  npx -y @mermaid-js/mermaid-cli \
-    --input "$ROOT/diagrams/$input" \
-    --output "$ROOT/manuscript/figures/$output" \
-    --backgroundColor transparent
-}
-
-render fig01_bioarc_overview.mmd fig01_bioarc_overview.svg
-render fig02_cad_pipeline.mmd fig02_cad_pipeline.svg
-render figA1_bioarc_external_integrations.mmd figA1_bioarc_external_integrations.svg
-render figA2_observability_sync.mmd figA2_observability_sync.svg
-
-echo "Rendered Mermaid diagrams to manuscript/figures/."
+CAD_PACKAGE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CAD_FIGURE_SCRIPT="$CAD_PACKAGE_ROOT/../reviewer-revision/revise_figures.py"
+if [[ ! -f "$CAD_FIGURE_SCRIPT" ]]; then
+  echo "V3 figure authoring is supplied separately as reviewer-revision/revise_figures.py." >&2
+  exit 2
+fi
+exec python "$CAD_FIGURE_SCRIPT"

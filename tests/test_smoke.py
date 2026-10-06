@@ -22,6 +22,8 @@ def test_quick_experiment_smoke(tmp_path: Path) -> None:
     assert len(results.ablation_summary) == 5
     assert len(results.sensitivity_summary) == 5
     assert len(results.runtime_summary) == 4
+    assert len(results.density_ablation_summary) == 3
+    assert len(results.density_ablation_runs) == 9
     assert results.method_summary["p_at_10"].between(0, 1).all()
     assert results.method_summary["r_at_10"].between(0, 1).all()
     assert results.method_summary["map"].between(0, 1).all()
@@ -42,6 +44,8 @@ def test_quick_experiment_smoke(tmp_path: Path) -> None:
         "run_pathway_summary.csv",
         "run_trace_coverage.csv",
         "article_values.json",
+        "density_ablation_summary.csv",
+        "density_ablation_runs.csv",
     }
     assert expected_results.issubset({path.name for path in result_dir.iterdir()})
 

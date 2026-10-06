@@ -9,7 +9,7 @@ from cad_sim.scoring import rank_scores, score_methods
 from cad_sim.synthetic import generate_system, sample_run_inputs
 
 
-def test_default_configuration_matches_article_v2() -> None:
+def test_default_configuration_matches_article_v3() -> None:
     config = ExperimentConfig()
     assert config.n_components == 45
     assert config.n_pathways == 14
@@ -27,9 +27,6 @@ def test_default_configuration_matches_article_v2() -> None:
     assert config.complete_trace_probability == 0.785
     assert config.partial_trace_probability == 0.152
     assert config.unmapped_trace_probability == 0.063
-    assert config.complete_case_probability == 0.641
-    assert config.process_algorithm == "Inductive Miner"
-    assert config.process_noise_threshold == 0.8
     assert config.rare_variant_threshold == 0.005
     assert config.sensitivity_variant_threshold == 0.01
     assert config.bootstrap_resamples == 10_000
