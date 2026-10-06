@@ -1,0 +1,91 @@
+seed,configuration,p_at_10,r_at_10,map,top10_stability
+42,Full CAD,1.0,0.8333333333333334,1.0,1.0
+42,CAD without recent defect density,1.0,0.8333333333333334,0.9866452991452991,1.0
+42,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+43,Full CAD,1.0,0.8333333333333334,0.9880952380952381,1.0
+43,CAD without recent defect density,1.0,0.8333333333333334,0.9763888888888888,1.0
+43,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+44,Full CAD,1.0,0.8333333333333334,0.9493006993006993,1.0
+44,CAD without recent defect density,0.9,0.75,0.9188644688644688,0.9
+44,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+45,Full CAD,1.0,0.8333333333333334,0.9493006993006993,1.0
+45,CAD without recent defect density,0.9,0.75,0.9344877344877345,0.9
+45,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+46,Full CAD,1.0,0.8333333333333334,0.947324414715719,1.0
+46,CAD without recent defect density,1.0,0.8333333333333334,0.942287784679089,1.0
+46,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+47,Full CAD,1.0,0.8333333333333334,0.9722222222222222,1.0
+47,CAD without recent defect density,0.9,0.75,0.9404761904761904,0.9
+47,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+48,Full CAD,1.0,0.8333333333333334,0.9423076923076924,1.0
+48,CAD without recent defect density,0.9,0.75,0.918040293040293,0.9
+48,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+49,Full CAD,1.0,0.8333333333333334,0.9239583333333333,1.0
+49,CAD without recent defect density,0.9,0.75,0.9112188697318008,0.9
+49,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.5
+50,Full CAD,1.0,0.8333333333333334,0.9880952380952381,1.0
+50,CAD without recent defect density,0.9,0.75,0.9629370629370628,0.9
+50,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.5
+51,Full CAD,1.0,0.8333333333333334,0.9880952380952381,1.0
+51,CAD without recent defect density,1.0,0.8333333333333334,0.9811507936507936,1.0
+51,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+52,Full CAD,1.0,0.8333333333333334,0.9551767676767676,1.0
+52,CAD without recent defect density,1.0,0.8333333333333334,0.9455128205128206,1.0
+52,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+53,Full CAD,1.0,0.8333333333333334,0.9722222222222222,1.0
+53,CAD without recent defect density,1.0,0.8333333333333334,0.9652777777777777,1.0
+53,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+54,Full CAD,1.0,0.8333333333333334,0.9455128205128206,1.0
+54,CAD without recent defect density,0.9,0.75,0.9312337662337663,0.9
+54,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+55,Full CAD,1.0,0.8333333333333334,0.9880952380952381,1.0
+55,CAD without recent defect density,1.0,0.8333333333333334,0.9763888888888888,1.0
+55,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+56,Full CAD,1.0,0.8333333333333334,0.9564777327935223,1.0
+56,CAD without recent defect density,0.8,0.6666666666666666,0.9027870277870278,0.8
+56,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.5
+57,Full CAD,1.0,0.8333333333333334,0.9935897435897436,1.0
+57,CAD without recent defect density,1.0,0.8333333333333334,0.9811507936507936,1.0
+57,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+58,Full CAD,1.0,0.8333333333333334,1.0,1.0
+58,CAD without recent defect density,1.0,0.8333333333333334,0.9866452991452991,1.0
+58,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+59,Full CAD,0.9,0.75,0.8822035982851922,1.0
+59,CAD without recent defect density,0.8,0.6666666666666666,0.8630347593582889,0.8
+59,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.5
+60,Full CAD,1.0,0.8333333333333334,0.9880952380952381,1.0
+60,CAD without recent defect density,0.9,0.75,0.9515873015873016,0.9
+60,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+61,Full CAD,1.0,0.8333333333333334,0.9880952380952381,1.0
+61,CAD without recent defect density,1.0,0.8333333333333334,0.9705128205128205,1.0
+61,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+62,Full CAD,1.0,0.8333333333333334,0.9438461538461539,1.0
+62,CAD without recent defect density,1.0,0.8333333333333334,0.9358465608465609,1.0
+62,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+63,Full CAD,0.9,0.75,0.9037631381381382,1.0
+63,CAD without recent defect density,0.8,0.6666666666666666,0.873025123025123,0.8
+63,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.5
+64,Full CAD,1.0,0.8333333333333334,0.9880952380952381,1.0
+64,CAD without recent defect density,1.0,0.8333333333333334,0.9705128205128205,1.0
+64,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+65,Full CAD,0.9,0.75,0.8966861598440546,1.0
+65,CAD without recent defect density,0.9,0.75,0.8737516869095817,0.9
+65,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+66,Full CAD,1.0,0.8333333333333334,0.9564777327935223,1.0
+66,CAD without recent defect density,0.9,0.75,0.9248538011695905,0.9
+66,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+67,Full CAD,1.0,0.8333333333333334,0.9880952380952381,1.0
+67,CAD without recent defect density,1.0,0.8333333333333334,0.9763888888888888,1.0
+67,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+68,Full CAD,1.0,0.8333333333333334,0.9880952380952381,1.0
+68,CAD without recent defect density,1.0,0.8333333333333334,0.9705128205128205,1.0
+68,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+69,Full CAD,0.9,0.75,0.9121794871794874,1.0
+69,CAD without recent defect density,0.8,0.6666666666666666,0.8682043650793653,0.8
+69,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4
+70,Full CAD,1.0,0.8333333333333334,0.9430555555555555,1.0
+70,CAD without recent defect density,0.9,0.75,0.9307531548910859,0.9
+70,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.5
+71,Full CAD,1.0,0.8333333333333334,0.9754901960784315,1.0
+71,CAD without recent defect density,1.0,0.8333333333333334,0.9652777777777777,1.0
+71,Static fragility without recent defect density,0.6,0.5,0.5364787581699346,0.4

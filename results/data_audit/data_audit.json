@@ -1,0 +1,79 @@
+{
+  "scope": "Read-only consistency audit and single static rankings; no full CAD or process-discovery validation",
+  "source_origin": "User identifies five CSVs as real; original extraction and attribution records are not supplied",
+  "source_sha256": {
+    "cad_sim_package_02_EHR_Architecture_and_Maintenance_ehr_components_catalog.csv": "46166662257e97eeb1123b4e0a7c5bc92b55f22dcfa3bebe497789d82af726f1",
+    "cad_sim_package_02_EHR_Architecture_and_Maintenance_ehr_architecture_edges.csv": "1cd7e1ae0f1075782e1ce0cce19d664c36b434930336270853b6c35f1a18509c",
+    "cad_sim_package_02_EHR_Architecture_and_Maintenance_ehr_dependency_matrix.csv": "0dfc26e1bafb5432e4935fd97fbf19aa262c613438a05688315f5e0f0b8e1f7a",
+    "cad_sim_package_02_EHR_Architecture_and_Maintenance_ehr_historical_fragility_t1.csv": "a5539d3e23d61e3e6cf3a4cb12a860a6efc3efae07ab3bf111a07b0a29678ca6",
+    "cad_sim_package_02_EHR_Architecture_and_Maintenance_ehr_maintenance_and_incidents_t2.csv": "b83a9bf7fdeeac08d9e0fbf6baf762f8808cdd00b2b58b9d2dc79aefde855fca"
+  },
+  "audit_source_sha256": "2e986c8b8dae7ec78cdecbeec2f9e75d5cec4b128cc34c2669ed9fd5082f202f",
+  "rows": {
+    "catalog": 45,
+    "edges": 437,
+    "matrix": 45,
+    "historical": 45,
+    "incidents": 120
+  },
+  "checks": {
+    "matrix_matches_edges": true,
+    "catalog_Ca_disagreements": 41,
+    "catalog_Ce_disagreements": 0,
+    "provided_fragility_max_absolute_error": 6.500000000003725e-05,
+    "score_within_four_decimal_rounding_bound": true,
+    "declared_windows_temporally_separated": true,
+    "t2_incidents_within_declared_window": true,
+    "t2_component_counts_equal_original_synthetic_label_counts": true
+  },
+  "t1_window_label": "T1 (2025-01-01 to 2025-12-31)",
+  "t2_window_label": "T2 (2026-01-01 to 2026-06-30)",
+  "t2_timestamp_range": [
+    "2026-01-03 09:47:24",
+    "2026-06-28 19:25:41"
+  ],
+  "t2_components_with_incidents": 12,
+  "t2_total_reported_effort_hours": 3186.8999999999996,
+  "attribution_field_values": [
+    "Independent Hospital SRE & Clinical Safety Board"
+  ],
+  "excluded_from_t1_field_values": [
+    "False"
+  ],
+  "retrieval": [
+    {
+      "method": "Supplied T1 static fragility",
+      "p_at_10": 0.1,
+      "r_at_10": 0.08333333333333333,
+      "average_precision": 0.22696182125198563,
+      "reciprocal_rank": 0.1111111111111111
+    },
+    {
+      "method": "Recomputed T1 static fragility",
+      "p_at_10": 0.1,
+      "r_at_10": 0.08333333333333333,
+      "average_precision": 0.22696182125198563,
+      "reciprocal_rank": 0.1111111111111111
+    },
+    {
+      "method": "T1 static fragility without defect density",
+      "p_at_10": 0.1,
+      "r_at_10": 0.08333333333333333,
+      "average_precision": 0.2343557301645537,
+      "reciprocal_rank": 0.16666666666666666
+    }
+  ],
+  "not_established": [
+    "Original extraction/source-record identifiers",
+    "Independent attribution and overlap provenance",
+    "T1 indicator definitions, normalization bounds and raw historical counts",
+    "Dependency scope explaining Ca discrepancies",
+    "Case-level event logs and distributed spans",
+    "Historical pathway frequencies, criticality and trace-to-component incidence",
+    "Individual criticality ratings",
+    "Matched established ATD implementation",
+    "Prospective maintenance effect",
+    "Production scale"
+  ],
+  "interpretation": "Window labels and attribution strings are file assertions. Incident pathway IDs are outcomes and never used to construct historical exposure. Static retrieval has one ranking per score, without run-level confidence intervals or CAD scores."
+}

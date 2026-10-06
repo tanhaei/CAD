@@ -1,0 +1,136 @@
+method,rank,component_id,score,has_t2_incident
+Supplied T1 static fragility,1,5,0.7812,False
+Supplied T1 static fragility,2,0,0.7705,False
+Supplied T1 static fragility,3,4,0.7414,False
+Supplied T1 static fragility,4,9,0.7358,False
+Supplied T1 static fragility,5,12,0.7278,False
+Supplied T1 static fragility,6,26,0.7021,False
+Supplied T1 static fragility,7,38,0.698,False
+Supplied T1 static fragility,8,40,0.6935,False
+Supplied T1 static fragility,9,20,0.6472,True
+Supplied T1 static fragility,10,28,0.6405,False
+Supplied T1 static fragility,11,3,0.636,True
+Supplied T1 static fragility,12,11,0.6239,False
+Supplied T1 static fragility,13,17,0.6208,False
+Supplied T1 static fragility,14,25,0.6196,False
+Supplied T1 static fragility,15,24,0.6188,False
+Supplied T1 static fragility,16,35,0.5941,True
+Supplied T1 static fragility,17,19,0.5896,False
+Supplied T1 static fragility,18,6,0.5714,True
+Supplied T1 static fragility,19,42,0.5565,False
+Supplied T1 static fragility,20,14,0.5485,True
+Supplied T1 static fragility,21,1,0.509,False
+Supplied T1 static fragility,22,27,0.4908,False
+Supplied T1 static fragility,23,10,0.4827,True
+Supplied T1 static fragility,24,41,0.468,False
+Supplied T1 static fragility,25,16,0.4679,False
+Supplied T1 static fragility,26,18,0.4452,False
+Supplied T1 static fragility,27,37,0.4447,False
+Supplied T1 static fragility,28,21,0.4441,False
+Supplied T1 static fragility,29,39,0.4346,False
+Supplied T1 static fragility,30,30,0.407,True
+Supplied T1 static fragility,31,8,0.4007,False
+Supplied T1 static fragility,32,22,0.3753,False
+Supplied T1 static fragility,33,43,0.3636,True
+Supplied T1 static fragility,34,13,0.3554,False
+Supplied T1 static fragility,35,36,0.3113,False
+Supplied T1 static fragility,36,44,0.3105,False
+Supplied T1 static fragility,37,33,0.3011,True
+Supplied T1 static fragility,38,2,0.2941,False
+Supplied T1 static fragility,39,15,0.2883,False
+Supplied T1 static fragility,40,32,0.2821,True
+Supplied T1 static fragility,41,31,0.2267,True
+Supplied T1 static fragility,42,7,0.2066,False
+Supplied T1 static fragility,43,34,0.1936,False
+Supplied T1 static fragility,44,29,0.1755,True
+Supplied T1 static fragility,45,23,0.1661,False
+Recomputed T1 static fragility,1,5,0.78124,False
+Recomputed T1 static fragility,2,0,0.77052,False
+Recomputed T1 static fragility,3,4,0.7414550000000001,False
+Recomputed T1 static fragility,4,9,0.7357650000000001,False
+Recomputed T1 static fragility,5,12,0.7277799999999999,False
+Recomputed T1 static fragility,6,26,0.70208,False
+Recomputed T1 static fragility,7,38,0.697995,False
+Recomputed T1 static fragility,8,40,0.69354,False
+Recomputed T1 static fragility,9,20,0.6472,True
+Recomputed T1 static fragility,10,28,0.64051,False
+Recomputed T1 static fragility,11,3,0.6360250000000001,True
+Recomputed T1 static fragility,12,11,0.6239600000000001,False
+Recomputed T1 static fragility,13,17,0.620835,False
+Recomputed T1 static fragility,14,25,0.61958,False
+Recomputed T1 static fragility,15,24,0.618815,False
+Recomputed T1 static fragility,16,35,0.59416,True
+Recomputed T1 static fragility,17,19,0.589565,False
+Recomputed T1 static fragility,18,6,0.5713900000000001,True
+Recomputed T1 static fragility,19,42,0.556485,False
+Recomputed T1 static fragility,20,14,0.548505,True
+Recomputed T1 static fragility,21,1,0.5090450000000001,False
+Recomputed T1 static fragility,22,27,0.490815,False
+Recomputed T1 static fragility,23,10,0.48269500000000004,True
+Recomputed T1 static fragility,24,16,0.467955,False
+Recomputed T1 static fragility,25,41,0.467935,False
+Recomputed T1 static fragility,26,18,0.44519500000000006,False
+Recomputed T1 static fragility,27,37,0.44471,False
+Recomputed T1 static fragility,28,21,0.44412,False
+Recomputed T1 static fragility,29,39,0.434605,False
+Recomputed T1 static fragility,30,30,0.40697,True
+Recomputed T1 static fragility,31,8,0.40073000000000003,False
+Recomputed T1 static fragility,32,22,0.375295,False
+Recomputed T1 static fragility,33,43,0.36357000000000006,True
+Recomputed T1 static fragility,34,13,0.355395,False
+Recomputed T1 static fragility,35,36,0.31128,False
+Recomputed T1 static fragility,36,44,0.31049,False
+Recomputed T1 static fragility,37,33,0.301145,True
+Recomputed T1 static fragility,38,2,0.29406,False
+Recomputed T1 static fragility,39,15,0.288295,False
+Recomputed T1 static fragility,40,32,0.282075,True
+Recomputed T1 static fragility,41,31,0.22668,True
+Recomputed T1 static fragility,42,7,0.20662499999999998,False
+Recomputed T1 static fragility,43,34,0.19357,False
+Recomputed T1 static fragility,44,29,0.1755,True
+Recomputed T1 static fragility,45,23,0.16605,False
+T1 static fragility without defect density,1,40,0.7597866666666667,False
+T1 static fragility without defect density,2,38,0.74496,False
+T1 static fragility without defect density,3,4,0.7449066666666666,False
+T1 static fragility without defect density,4,26,0.7318733333333334,False
+T1 static fragility without defect density,5,12,0.7230066666666667,False
+T1 static fragility without defect density,6,35,0.7183799999999999,True
+T1 static fragility without defect density,7,5,0.7083200000000001,False
+T1 static fragility without defect density,8,0,0.6942266666666667,False
+T1 static fragility without defect density,9,28,0.69068,False
+T1 static fragility without defect density,10,25,0.6849733333333333,False
+T1 static fragility without defect density,11,24,0.6817866666666667,False
+T1 static fragility without defect density,12,42,0.6570133333333333,False
+T1 static fragility without defect density,13,20,0.6496666666666666,True
+T1 static fragility without defect density,14,9,0.6476866666666667,False
+T1 static fragility without defect density,15,3,0.6456,True
+T1 static fragility without defect density,16,17,0.6206466666666667,False
+T1 static fragility without defect density,17,14,0.6091066666666667,True
+T1 static fragility without defect density,18,11,0.5752466666666666,False
+T1 static fragility without defect density,19,27,0.5669866666666666,False
+T1 static fragility without defect density,20,6,0.5369533333333334,True
+T1 static fragility without defect density,21,1,0.5206933333333333,False
+T1 static fragility without defect density,22,16,0.4968733333333334,False
+T1 static fragility without defect density,23,39,0.4917066666666667,False
+T1 static fragility without defect density,24,19,0.4527533333333333,False
+T1 static fragility without defect density,25,10,0.44759333333333334,True
+T1 static fragility without defect density,26,30,0.44122666666666666,True
+T1 static fragility without defect density,27,21,0.41696,False
+T1 static fragility without defect density,28,18,0.4052266666666666,False
+T1 static fragility without defect density,29,2,0.39208,False
+T1 static fragility without defect density,30,8,0.37344,False
+T1 static fragility without defect density,31,37,0.36324666666666666,False
+T1 static fragility without defect density,32,41,0.36284666666666665,False
+T1 static fragility without defect density,33,22,0.35169333333333336,False
+T1 static fragility without defect density,34,43,0.32609333333333335,True
+T1 static fragility without defect density,35,13,0.3220266666666667,False
+T1 static fragility without defect density,36,32,0.2952333333333333,True
+T1 static fragility without defect density,37,31,0.2595733333333333,True
+T1 static fragility without defect density,38,44,0.25851999999999997,False
+T1 static fragility without defect density,39,34,0.25809333333333334,False
+T1 static fragility without defect density,40,33,0.24216,True
+T1 static fragility without defect density,41,23,0.22139999999999999,False
+T1 static fragility without defect density,42,15,0.20559333333333332,False
+T1 static fragility without defect density,43,7,0.16296666666666668,False
+T1 static fragility without defect density,44,36,0.14080666666666666,False
+T1 static fragility without defect density,45,29,0.1204,True

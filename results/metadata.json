@@ -1,13 +1,27 @@
 {
   "simulation_only": true,
-  "software_release": "0.3.0",
-  "article_revision": "V2 (2026-08-14)",
+  "software_release": "0.4.0",
+  "source_sha256": {
+    "src/cad_sim/__init__.py": "006c8775376d0afcb3fdc67c1d893ada589f46dca44ca19bb2157c1c92f9a802",
+    "src/cad_sim/article.py": "207f7eef97ae3cc1471acd757e68bc8b13da17c8822e6e4a4ccd3edb4dea1b0a",
+    "src/cad_sim/cli.py": "24f5b689ec45627229845be7f48cb73f8d0c621062016507dd1b36a1e5adbc03",
+    "src/cad_sim/config.py": "97cf7cf29b0cc9978988a459f284190a681c4551b82c9bfdccdf10b659e23522",
+    "src/cad_sim/data_audit.py": "2e986c8b8dae7ec78cdecbeec2f9e75d5cec4b128cc34c2669ed9fd5082f202f",
+    "src/cad_sim/experiment.py": "614f8e06c25caaed01d2d536fc83f2613a21d09c73d54d163de04f5358ad54c1",
+    "src/cad_sim/manuscript.py": "a1faa591d010ec9869ee935cfacd66acb696370a2e01d5b2e1e088cb910c7859",
+    "src/cad_sim/metrics.py": "98af4ed8333e068d1dda9e62dcd77e0d28d3ad59b98c040ac29b2e8d458b70c5",
+    "src/cad_sim/reporting.py": "f04cbb800e21872e023a0820bd1cf7332c71ae1c375ca91f403ffb3f85578461",
+    "src/cad_sim/scoring.py": "e3babef2c9cad7a729491697033a56de9b856d10e5c29c7afd0db9b5fd4450a3",
+    "src/cad_sim/synthetic.py": "9ad981db9c83a98657d46c04ff31ffce30f150cdad62fc776ca244c80284a264"
+  },
+  "normalized_config_sha256": "5e1670d36e876243f6509407b6ddb621ededdd6f82daf33dba39a502bf667c45",
+  "article_revision": "V3 (2026-10-06)",
   "repository": "https://github.com/tanhaei/CAD",
-  "python": "3.12.13",
-  "platform": "Linux-6.12.47-x86_64-with-glibc2.39",
-  "logical_cpu_count": 9,
-  "peak_process_memory_mb": 133.5390625,
-  "analysis_wall_clock_seconds": 2.046027010999751,
+  "python": "3.13.16",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "logical_cpu_count": 10,
+  "peak_process_memory_mb": 125.796875,
+  "analysis_wall_clock_seconds": 0.4787032089952845,
   "normalization": "5th--95th percentile winsorized min--max scaling to [0,1]",
   "bootstrap": {
     "unit": "evaluation run",
@@ -19,9 +33,11 @@
     "active_pathways_generated_directly": true,
     "process_discovery_executed": false,
     "case_level_trace_completeness_simulated": false,
-    "configured_process_algorithm": "Inductive Miner",
-    "configured_process_noise_threshold": 0.8,
-    "reported_complete_case_probability": 0.641
+    "criticality_is_configured_and_permuted": true,
+    "executable_fault_injection_performed": false,
+    "target_selection_provenance_established": false,
+    "indicators_measured_from_production": false,
+    "density_exclusion_scope": "scoring only; original incidence matrix retained"
   },
   "run_randomization": "multinomial pathway-count resampling and stochastic resampling of complete, partial, and unmapped trace-link states; relevance labels remain fixed",
   "runtime_includes": "fragility normalization, pathway-frequency resampling, trace-state resampling, exposure aggregation, method-specific scoring, and ranking",
@@ -82,9 +98,6 @@
     "complete_trace_probability": 0.785,
     "partial_trace_probability": 0.152,
     "unmapped_trace_probability": 0.063,
-    "complete_case_probability": 0.641,
-    "process_algorithm": "Inductive Miner",
-    "process_noise_threshold": 0.8,
     "rare_variant_threshold": 0.005,
     "sensitivity_variant_threshold": 0.01,
     "bootstrap_resamples": 10000,
@@ -111,5 +124,5 @@
     "partial": 0.14935897435897433,
     "unmapped": 0.06314102564102565
   },
-  "end_to_end_wall_clock_seconds": 2.08102431000043
+  "end_to_end_wall_clock_seconds": 0.5135861659946386
 }
